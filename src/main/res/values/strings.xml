@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Smile^_^ </string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="smile_author">by zsj</string>
+
+    <string name="net_unconnected">您的数据和wifi还没打来并不能获取到最新的笑话！</string>
+    <string name="last_detail">已经是最后一条笑话啦!</string>
+</resources>

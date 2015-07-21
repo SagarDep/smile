@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="window_background">#FFF5F5F5</color>
+    <color name="refresh_progress_1">#e91e63</color>
+    <color name="refresh_progress_2">#00b0ff</color>
+    <color name="refresh_progress_3">#4b342f</color>
+    <color name="smile_text">#4b342f</color>
+    <color name="md_red_400">#e84e40</color>
+
+</resources>
