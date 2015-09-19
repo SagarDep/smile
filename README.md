@@ -1,17 +1,17 @@
 # smile
-一个纯粹看笑话的app ，material design 风格，支持下拉刷新，上拉加载更多，支持数据库缓存，无网络状态下也能浏览笑话
 
-下面是app 中用到了一些库，其中 jsoup和litepal的jar 包在libs文件目录下有
-```
- dependencies {
-     compile fileTree(dir: 'libs', include: ['*.jar'])
-     compile 'com.android.support:appcompat-v7:22.2.0'
-     compile 'com.android.support:recyclerview-v7:22.2.0'
-     compile 'com.android.support:cardview-v7:22.2.0'
-     compile 'com.android.support:design:22.2.0'
-     compile files('libs/jsoup-1.7.2.jar')
-     compile files('libs/litepal-1.2.0-src.jar')
-  }
-```
-app截图：
-![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-07-19-16-14-24-723.png)  ![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-07-21-12-18-27-486.png)
+这几天对之前的App进行了重构,不但可以欣赏妹纸，还可以看笑话两不误
+
+###项目中用到的知识点：
+   * Jsoup: 通过Jsoup 解析Html 拿到笑话数据
+   * OkHttpClient:OkHttpClient 和 Retrofit 配合使用获取干货网妹纸 url
+   * Android Design Support Library库的简单shiyong
+   * litepal 数据库存取操作
+   * RecyclerView 的使用
+   * Glide 库加载图片
+   * 加入了优雅的 Activity 之间转场动画
+   
+
+###致谢
+* [代码家](http://blog.daimajia.com/)和他的[干活集中营](http://gank.io/)<br>
+* [drkeet](http://drakeet.me/)和他的妹纸应用[妹纸&gank.io](https://github.com/drakeet/Meizhi)
