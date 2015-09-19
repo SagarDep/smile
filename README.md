@@ -19,5 +19,5 @@
 <img src="/screenshots/Screenshot_2015-09-19-13-59-51-28.png" alt="screenshot" title="screenshot" width="270" height="490" />
 
 ###致谢
-* [代码家](http://blog.daimajia.com/)和他的[干活集中营](http://gank.io/)<br>
+* [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)<br>
 * [drkeet](http://drakeet.me/)和他的妹纸应用[妹纸&gank.io](https://github.com/drakeet/Meizhi)
