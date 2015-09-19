@@ -13,9 +13,10 @@
    * Butterknife对View 注解绑定
    
 
-![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-58-46-523.png) ![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-18-20-22-50-490.png)
-![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-58-57-877.png) ![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-59-04-495.png)
-![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-59-51-28.png)
+<img src="/screenshots/Screenshot_2015-09-18-20-22-50-490.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-09-19-13-58-46-523.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/Screenshot_2015-09-19-13-58-57-877.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/Screenshot_2015-09-19-13-59-04-495.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/Screenshot_2015-09-19-13-59-51-28.png" alt="screenshot" title="screenshot" width="270" height="490" />
 
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干活集中营](http://gank.io/)<br>
