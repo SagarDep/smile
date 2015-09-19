@@ -5,11 +5,12 @@
 ###项目中用到的知识点：
    * Jsoup: 通过Jsoup 解析Html 拿到笑话数据
    * OkHttpClient:OkHttpClient 和 Retrofit 配合使用获取干货网妹纸 url
-   * Android Design Support Library库的简单shiyong
+   * Android Design Support Library库的简单使用
    * litepal 数据库存取操作
    * RecyclerView 的使用
    * Glide 库加载图片
    * 加入了优雅的 Activity 之间转场动画
+   * Butterknife对View 注解绑定
    
 
 ![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-58-46-523.png) ![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-18-20-22-50-490.png)
