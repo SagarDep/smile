@@ -20,4 +20,4 @@
 
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)<br>
-* [drkeet](http://drakeet.me/)和他的妹纸应用[妹纸&gank.io](https://github.com/drakeet/Meizhi)
+* [Drakeet](http://drakeet.me/)和他的妹纸应用[妹纸&gank.io](https://github.com/drakeet/Meizhi)
