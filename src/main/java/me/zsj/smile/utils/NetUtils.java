@@ -1,4 +1,4 @@
-package me.zsj.utils;
+package me.zsj.smile.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

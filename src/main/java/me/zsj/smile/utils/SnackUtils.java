@@ -1,6 +1,5 @@
-package me.zsj.utils;
+package me.zsj.smile.utils;
 
-import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -16,5 +15,14 @@ public class SnackUtils {
 
     public static void show(View view, int resId) {
         Snackbar.make(view, resId, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public static void showAction(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).setAction("知道了", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        }).show();
     }
 }

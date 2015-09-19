@@ -1,4 +1,4 @@
-package me.zsj.utils;
+package me.zsj.smile.utils;
 
 @SuppressWarnings("serial")
 public class CommonException extends Exception {
