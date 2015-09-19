@@ -12,6 +12,10 @@
    * 加入了优雅的 Activity 之间转场动画
    
 
+![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-58-46-523.png) ![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-18-20-22-50-490.png)
+![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-58-57-877.png) ![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-59-04-495.png)
+![image](https://github.com/Assassinss/smile/blob/master/screenshots/Screenshot_2015-09-19-13-59-51-28.png)
+
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干活集中营](http://gank.io/)<br>
 * [drkeet](http://drakeet.me/)和他的妹纸应用[妹纸&gank.io](https://github.com/drakeet/Meizhi)
