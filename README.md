@@ -4,7 +4,7 @@
 
 ###项目中用到的知识点：
    * Jsoup: 通过Jsoup 解析Html 拿到笑话数据
-   * OkHttpClient:OkHttpClient 和 Retrofit 配合使用获取干货网妹纸 url
+   * OkHttp:OkHttp和 Retrofit 配合使用获取干货网妹纸 url
    * Android Design Support Library库的简单使用
    * litepal 数据库存取操作
    * RecyclerView 的使用
@@ -19,5 +19,5 @@
 <img src="/screenshots/Screenshot_2015-09-19-13-59-51-28.png" alt="screenshot" title="screenshot" width="270" height="490" />
 
 ###致谢
-* [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)<br>
+* [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)
 * [Drakeet](http://drakeet.me/)和他的妹纸应用[妹纸&gank.io](https://github.com/drakeet/Meizhi)
