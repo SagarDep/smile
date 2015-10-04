@@ -6,6 +6,8 @@ import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +28,8 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
     private LayoutInflater mInflater;
     private Context mContext;
     private OnItemTouchListener onItemTouchListener;
+
+    private int mLastPosition = -1;
 
     public void setOnSmileItemClickListener(OnItemTouchListener onItemTouchListener) {
         this.onItemTouchListener = onItemTouchListener;
@@ -73,6 +77,7 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
             });
         }
     }
+
 
     @Override
     public int getItemCount() {

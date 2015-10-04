@@ -11,6 +11,6 @@
     <item
         android:id="@+id/about_app"
         android:orderInCategory="100"
-        android:title="关于我"
+        android:title="关于App"
         app:showAsAction="never"/>
 </menu>

@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import org.litepal.crud.DataSupport;
 
@@ -99,6 +101,7 @@ public class MainActivity extends SwipeRefreshActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mSmileListAdapter);

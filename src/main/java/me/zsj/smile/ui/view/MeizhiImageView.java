@@ -1,7 +1,8 @@
-package me.zsj.smile.ui;
+package me.zsj.smile.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -37,7 +38,6 @@ public class MeizhiImageView extends ImageView {
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int height = MeasureSpec.getSize(heightMeasureSpec);
 
-            // TODO: 现在只支持固定宽度
             if (width > 0) {
                 height = (int) ((float) width / ratio);
             }

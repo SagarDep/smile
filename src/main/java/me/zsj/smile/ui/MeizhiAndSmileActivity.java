@@ -195,7 +195,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
         if (item.getItemId() == R.id.share) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "分享个笑话给大家: " + mSmileContent + "   来自 ZSJ 的 Meizhi&Smile App");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "分享个笑话给大家: " + mSmileContent);
             shareIntent.setType("text/plain");
             startActivity(shareIntent);
         }

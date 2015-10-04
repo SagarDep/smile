@@ -2,8 +2,13 @@ package me.zsj.smile.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,4 +37,5 @@ public abstract class ToolbarActivity extends AppCompatActivity{
     public void setBarAlpha(float alpha) {
         mAppBar.setAlpha(alpha);
     }
+
 }

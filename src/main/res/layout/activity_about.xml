@@ -34,16 +34,18 @@
                     android:text="@string/about_app" />
 
                 <TextView
-                    style="@style/about_text"
+                    android:id="@+id/my_github"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/aboutme_github" />
+                    android:text="@string/aboutme_github"
+                    style="@style/about_text" />
 
                 <TextView
-                    style="@style/about_text"
+                    android:id="@+id/my_weibo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/weibo" />
+                    android:text="@string/weibo"
+                    style="@style/about_text" />
 
             </LinearLayout>
         </LinearLayout>

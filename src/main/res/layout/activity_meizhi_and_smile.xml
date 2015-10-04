@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/image_meizhi"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="380dp"
                 android:clickable="true"/>
 
             <TextView

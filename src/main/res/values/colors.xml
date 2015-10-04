@@ -15,4 +15,7 @@
 
     <color name="meizhi_layout_backgroud">#000000</color>
 
+    <color name="desc_item_backgroud">#eeeeee</color>
+    <color name="desc_item_press">@android:color/transparent</color>
+
 </resources>

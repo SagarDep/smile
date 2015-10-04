@@ -3,16 +3,19 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="smile_author">By Zsj</string>
+    <string name="smile_author">By ZSJ</string>
 
     <string name="net_unconnected">您的数据和wifi还没打来并不能获取到最新的笑话！</string>
     <string name="last_detail">已经是最后一条笑话啦!</string>
 
     <string name="meizhi_and_smile_title">Meizhi&amp;Smile</string>
-    <string name="Meizhi_Smile">这是一款可以欣赏漂亮妹纸和看笑话的App, 是你烦恼，无聊时的最好的伙伴,  欢迎star https://github.com/Assassinss/smile </string>\\
+    <string name="Meizhi_Smile">这是一款可以欣赏漂亮妹纸和看笑话的App, 是你烦恼，无聊时的最好的伙伴,  欢迎star https://github.com/Assassinss/smile </string>
 
     <string name="about_app">这是一款可以欣赏漂亮妹纸和笑话的App,是你烦恼，无聊时的最好的伙伴</string>
-    <string name="aboutme_github">我的github: https://github.com/Assassinss</string>
-    <string name="weibo">我的微博ID: xiao_zhu5</string>
+    <string name="aboutme_github">我的github: <a href="https://github.com/Assassinss">https://github.com/Assassinss</a></string>
+    <string name="weibo">我的微博: <a href="http://weibo.com/3909413398/profile?topnav=1&amp;wvr=6">xiao_zhu5</a></string>
+
+    <string name="refreshVedio">刷新</string>
+    <string name="openWithBrowse">在浏览器中打开</string>
 
 </resources>
