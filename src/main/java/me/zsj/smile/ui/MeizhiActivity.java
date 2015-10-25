@@ -23,7 +23,6 @@ import me.zsj.smile.R;
 import me.zsj.smile.utils.RxMeizhi;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by zsj on 2015/9/18 0018.
@@ -32,6 +31,7 @@ public class MeizhiActivity extends ToolbarActivity{
 
     private String mMeizhiUrl;
     private String mMeizhiDate;
+    public static String TRANSIT_PIC = "picture";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,10 @@ public class MeizhiActivity extends ToolbarActivity{
         setTitle(mMeizhiDate);
         setNavigationListener();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Glide.with(this)
+        ViewCompat.setTransitionName(mImageView, TRANSIT_PIC);
+        Picasso.with(this)
                 .load(mMeizhiUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(mImageView);
-
     }
 
     @Override
@@ -60,7 +58,7 @@ public class MeizhiActivity extends ToolbarActivity{
     }
 
     private void setToolbarAlpha() {
-        setBarAlpha(0.7f);
+        setBarAlpha(0.5f);
     }
 
     private void setNavigationListener() {

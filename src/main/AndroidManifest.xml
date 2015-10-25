@@ -10,12 +10,12 @@
     <application
         android:name="me.zsj.smile.MyApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_smile"
-        android:label="@string/meizhi_and_smile_title"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/smile_title"
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/meizhi_and_smile_title">
+            android:label="@string/smile_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
 
         <activity
             android:name=".ui.MeizhiAndSmileActivity"
-            android:label="@string/meizhi_and_smile_title"
+            android:label="@string/smile_title"
             android:theme="@style/AppTheme.Activity">
 
         </activity>
@@ -44,6 +44,9 @@
         </activity>
 
         <activity android:name=".ui.VedioActivity"
+            ></activity>
+
+        <activity android:name=".ui.LoveCollectActivity"
             ></activity>
     </application>
 

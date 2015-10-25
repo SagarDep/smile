@@ -8,7 +8,7 @@
     <string name="net_unconnected">您的数据和wifi还没打来并不能获取到最新的笑话！</string>
     <string name="last_detail">已经是最后一条笑话啦!</string>
 
-    <string name="meizhi_and_smile_title">Meizhi&amp;Smile</string>
+    <string name="smile_title">Smile</string>
     <string name="Meizhi_Smile">这是一款可以欣赏漂亮妹纸和看笑话的App, 是你烦恼，无聊时的最好的伙伴,  欢迎star https://github.com/Assassinss/smile </string>
 
     <string name="about_app">这是一款可以欣赏漂亮妹纸和笑话的App,是你烦恼，无聊时的最好的伙伴</string>
@@ -17,5 +17,8 @@
 
     <string name="refreshVedio">刷新</string>
     <string name="openWithBrowse">在浏览器中打开</string>
+
+    <string name="nav_meizhi">妹纸</string>
+    <string name="nav_collect">收藏</string>
 
 </resources>

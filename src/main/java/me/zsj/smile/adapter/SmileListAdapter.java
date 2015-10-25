@@ -6,8 +6,6 @@ import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,7 +55,7 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.smile_itemview, parent, false));
+        MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.item_smile, parent, false));
 
         return holder;
     }

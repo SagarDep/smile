@@ -10,7 +10,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import me.zsj.smile.model.Smile;
+import me.zsj.smile.utils.CommonException;
+import me.zsj.smile.utils.HttpUtils;
 import me.zsj.smile.utils.OkHttpUtils;
+import me.zsj.smile.utils.TaskUtils;
 
 
 public class SmileParser {
@@ -70,7 +73,6 @@ public class SmileParser {
     public String getJokeInfo(String url) {
 
         String htmlInfo = OkHttpUtils.run(url);
-
         Document document = Jsoup.parse(htmlInfo);
         Elements elements = document.getElementsByClass("arcBody");
         String jokeInfo = elements.text();

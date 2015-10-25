@@ -2,6 +2,7 @@ package me.zsj.smile.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,7 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
     public MeizhiHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         MeizhiHolder holder = new MeizhiHolder(
-                LayoutInflater.from(mContext).inflate(R.layout.meizhi_listitem_view, parent, false));
+                LayoutInflater.from(mContext).inflate(R.layout.item_meizhi, parent, false));
         return holder;
     }
 
@@ -95,14 +96,7 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.meizhi_imageview:
-                    triggerClickListener(v, position);
-                    break;
-                case R.id.meizhi_desc_item:
-                    triggerClickListener(v, position);
-                    break;
-            }
+            triggerClickListener(v, position);
         }
     }
 

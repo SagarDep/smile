@@ -2,6 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_card"
+    android:id="@+id/item_card"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
+    android:layout_marginBottom="2dp"
     android:orientation="vertical">
 
     <me.zsj.smile.ui.view.MeizhiImageView
@@ -9,18 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"/>
+        android:layout_margin="3dp"/>
 
     <LinearLayout
         android:id="@+id/meizhi_desc_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_desc_backgroud"
-        android:padding="10dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="4dp">
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp">
         <TextView
             android:id="@+id/meizhi_desc"
             android:layout_width="wrap_content"

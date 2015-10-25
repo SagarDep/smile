@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contentView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="#212121">
 
-    <include layout="@layout/view_toolbar"></include>
-
-    <ScrollView
+    <!--<ScrollView
         android:id="@+id/contentView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,6 +38,46 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </ScrollView>-->
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_meizhi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <me.zsj.smile.ui.view.RevealLayout
+        android:id="@+id/revealLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/smile_joke"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_margin="16dp"
+            android:textColor="#ffffff"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/reveal_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="true"
+            android:src="@mipmap/ic_reveal"
+            app:borderWidth="0dp"
+            app:elevation="4dp" />
+
+    </me.zsj.smile.ui.view.RevealLayout>
+
+    <include layout="@layout/view_toolbar"/>
+</FrameLayout>
