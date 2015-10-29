@@ -93,7 +93,6 @@ public class MainActivity extends SwipeRefreshActivity {
                         } else if (menuItem.getItemId() == R.id.collect) {
                             Toast.makeText(MainActivity.this, "功能还在开发中...", Toast.LENGTH_LONG).show();
                             //startToActivity(LoveCollectActivity.class);
-                        }else if (menuItem.getItemId() == R.id.video) {
                         }
                         mDrawerLayout.closeDrawers();
                         return true;
