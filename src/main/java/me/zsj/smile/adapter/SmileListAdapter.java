@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zsj.smile.R;
-import me.zsj.smile.event.OnItemTouchListener;
+import me.zsj.smile.event.OnSmileItemTouchListener;
 import me.zsj.smile.model.Smile;
 
 /**
@@ -25,12 +25,11 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
     private List<Smile> mDatas;
     private LayoutInflater mInflater;
     private Context mContext;
-    private OnItemTouchListener onItemTouchListener;
+    private OnSmileItemTouchListener onSmileItemTouchListener;
 
-    private int mLastPosition = -1;
 
-    public void setOnSmileItemClickListener(OnItemTouchListener onItemTouchListener) {
-        this.onItemTouchListener = onItemTouchListener;
+    public void setOnSmileItemClickListener(OnSmileItemTouchListener onSmileItemTouchListener) {
+        this.onSmileItemTouchListener = onSmileItemTouchListener;
     }
 
     public SmileListAdapter(Context context, List<Smile> datas) {
@@ -63,17 +62,11 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
+        Smile smile = mDatas.get(position);
+        holder.smile = smile;
         holder.tv_smile.setText(mDatas.get(position).getTitle());
         holder.tv_content.setText(new SpannableString(mDatas.get(position).getSmileContent()));
 
-        if (onItemTouchListener != null) {
-            holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemTouchListener.setOnItemClickListener(v, position);
-                }
-            });
-        }
     }
 
 
@@ -82,18 +75,22 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
         return mDatas.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        @Bind(R.id.tv_smile)
-        TextView tv_smile;
-        @Bind(R.id.tv_content)
-        TextView tv_content;
-        @Bind(R.id.smile_item)
-        LinearLayout linearLayout;
+        @Bind(R.id.tv_smile) TextView tv_smile;
+        @Bind(R.id.tv_content) TextView tv_content;
+        @Bind(R.id.smile_item) LinearLayout linearLayout;
+        Smile smile;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            linearLayout.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onSmileItemTouchListener.onItemClick(v, smile);
         }
     }
 

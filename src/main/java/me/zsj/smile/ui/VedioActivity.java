@@ -33,7 +33,7 @@ public class VedioActivity extends ToolbarActivity{
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_vedio;
+        return R.layout.activity_gank_video;
     }
 
     @Override

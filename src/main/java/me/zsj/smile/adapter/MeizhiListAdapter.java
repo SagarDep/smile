@@ -2,7 +2,6 @@ package me.zsj.smile.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zsj.smile.R;
-import me.zsj.smile.event.OnItemTouchListener;
+import me.zsj.smile.event.OnMeizhiItemTouchListener;
+import me.zsj.smile.event.OnSmileItemTouchListener;
 import me.zsj.smile.model.Meizhi;
 import me.zsj.smile.ui.view.MeizhiImageView;
 
@@ -27,10 +27,11 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
 
     private Context mContext;
     private List<Meizhi> mMeizhiList;
-    private OnItemTouchListener onItemTouchListener;
+    private OnMeizhiItemTouchListener onMeizhiItemTouchListener;
 
-    public void setOnItemTouchListener(OnItemTouchListener onItemTouchListener) {
-        this.onItemTouchListener = onItemTouchListener;
+
+    public void setOnMeizhiItemTouchListener(OnMeizhiItemTouchListener onMeizhiItemTouchListener) {
+        this.onMeizhiItemTouchListener = onMeizhiItemTouchListener;
     }
 
     public MeizhiListAdapter(Context context, List<Meizhi> meizhiList) {
@@ -101,8 +102,8 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
     }
 
     private void triggerClickListener(View v, int position) {
-        if (onItemTouchListener != null) {
-            onItemTouchListener.setOnItemClickListener(v, position);
+        if (onMeizhiItemTouchListener != null) {
+            onMeizhiItemTouchListener.onItemClick(v, position);
         }
     }
 

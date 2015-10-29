@@ -9,25 +9,25 @@ import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 
-public class MeizhiRetrofit {
+public class DataRetrofit {
 
-    private GankMeizhi service;
+    private Data service;
 
     final static Gson gson =
         new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").serializeNulls().create();
 
-    public MeizhiRetrofit() {
+    public DataRetrofit(String url) {
         OkHttpClient client = new OkHttpClient();
         client.setReadTimeout(12, TimeUnit.SECONDS);
 
         RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(client))
-            .setEndpoint("http://gank.avosapps.com/api")
+            .setEndpoint(url)
             .setConverter(new GsonConverter(gson))
             .build();
-        service = restAdapter.create(GankMeizhi.class);
+        service = restAdapter.create(Data.class);
     }
 
-    public GankMeizhi getService() {
+    public Data getService() {
         return service;
     }
 }

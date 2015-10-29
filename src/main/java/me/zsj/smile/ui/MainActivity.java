@@ -13,6 +13,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import me.zsj.smile.event.OnItemTouchListener;
+import me.zsj.smile.event.OnSmileItemTouchListener;
 import me.zsj.smile.model.Smile;
 import me.zsj.smile.R;
 import me.zsj.smile.adapter.SmileListAdapter;
@@ -88,18 +89,22 @@ public class MainActivity extends SwipeRefreshActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                         if (menuItem.getItemId() == R.id.meizhi) {
-                            Intent intent = new Intent(MainActivity.this, MeizhiListActivity.class);
-                            startActivity(intent);
+                            startToActivity(MeizhiListActivity.class);
                         } else if (menuItem.getItemId() == R.id.collect) {
-                            // Toast.makeText(MainActivity.this, "功能还在开发中...", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(MainActivity.this, LoveCollectActivity.class);
-                            startActivity(intent);
+                            Toast.makeText(MainActivity.this, "功能还在开发中...", Toast.LENGTH_LONG).show();
+                            //startToActivity(LoveCollectActivity.class);
+                        }else if (menuItem.getItemId() == R.id.video) {
                         }
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
                 }
         );
+    }
+
+    private void startToActivity(Class clazz) {
+        Intent intent = new Intent(this, clazz);
+        startActivity(intent);
     }
 
     @Override
@@ -123,13 +128,13 @@ public class MainActivity extends SwipeRefreshActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 getSmileData(LOAD_REFRESH);
             }
         }, 350);
+
     }
 
     private void initRecyclerView() {
@@ -143,7 +148,6 @@ public class MainActivity extends SwipeRefreshActivity {
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mSmileListAdapter);
 
@@ -166,21 +170,19 @@ public class MainActivity extends SwipeRefreshActivity {
 
         });
 
-        click();
+        itemClick();
 
     }
 
-    private void click() {
-        mSmileListAdapter.setOnSmileItemClickListener(new OnItemTouchListener() {
+    private void itemClick() {
+        mSmileListAdapter.setOnSmileItemClickListener(new OnSmileItemTouchListener() {
+
             @Override
-            public void setOnItemClickListener(View view, int position) {
+            public void onItemClick(View view, Smile smile) {
                 Intent intent = new Intent(MainActivity.this, MeizhiAndSmileActivity.class);
-                int[] startingLocation = new int[2];
-                view.getLocationOnScreen(startingLocation);
-                intent.putExtra(SMILE_DATA_URL, mSmileListAdapter.getDatas().get(position).getTitleUrl());
-                //intent.putExtra(MeizhiAndSmileActivity.MEIZHI_STRATING_LOCATION, startingLocation[1]);
+                intent.putExtra(SMILE_DATA_URL, smile.getTitleUrl());
+                intent.putExtra(MeizhiAndSmileActivity.SMILE_DESCRIPTION, smile.getSmileContent());
                 startActivity(intent);
-                //overridePendingTransition(0, 0);
             }
         });
     }

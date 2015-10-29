@@ -87,7 +87,7 @@ public class RevealLayout extends LinearLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawCircle(getWidth() - pxTodp(55), getHeight() - pxTodp(55), radius, mRevealPaint);
+        canvas.drawCircle(getWidth() - pxTodp(50), getHeight() - pxTodp(50), radius, mRevealPaint);
 
     }
 

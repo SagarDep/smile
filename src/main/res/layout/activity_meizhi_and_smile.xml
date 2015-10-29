@@ -63,8 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_margin="16dp"
-            android:textColor="#ffffff"/>
+            android:layout_margin="16dp"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/reveal_fab"

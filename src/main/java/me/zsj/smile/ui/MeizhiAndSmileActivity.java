@@ -5,19 +5,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnimationSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,7 +23,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import me.zsj.smile.MeizhiRetrofit;
+import me.zsj.smile.DataRetrofit;
 import me.zsj.smile.R;
 import me.zsj.smile.data.MeizhiData;
 import me.zsj.smile.model.Meizhi;
@@ -53,11 +49,10 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     @Bind(R.id.smile_joke) TextView mSmileJoke;
 
     public static final String MEIZHI_STRATING_LOCATION = "Mezhi_Activity";
+    public static final String SMILE_DESCRIPTION = "desc";
 
     private int drawingStartLocation;
-    private String mJokeUrl;
     private String mSmileContent;
-    private boolean mIsFirst = true;
 
     private List<Meizhi> mGankMeizhiList;
 
@@ -72,8 +67,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
 
         setNavigationListener();
 
-        drawingStartLocation = getIntent().getExtras().getInt(MEIZHI_STRATING_LOCATION, 0);
-        mJokeUrl = getIntent().getExtras().getString(MainActivity.SMILE_DATA_URL);
+        mSmileContent = getIntent().getExtras().getString(SMILE_DESCRIPTION);
         //setOnPreDraw(savedInstanceState);
         mGankMeizhiList = new ArrayList<>();
     }
@@ -96,18 +90,17 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (NetUtils.checkNet(MeizhiAndSmileActivity.this)) {
-            getSmileJoke();
+            loadBeautifulGril();
         } else {
             SnackUtils.showAction(contentView, "赶紧联网获取最新的妹纸和笑话");
         }
     }
 
-    private void getSmileJoke() {
+    private void loadBeautifulGril() {
         Observable.just("smile")
                 .map(new Func1<String, Object>() {
                     @Override
                     public Object call(String s) {
-                        mSmileContent = s = SmileParser.getInstance().getJokeInfo(mJokeUrl);
                         getMeizhi();
                         return s;
                     }
@@ -117,6 +110,8 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
                 .subscribe(new Action1<Object>() {
                     @Override
                     public void call(Object o) {
+                        mSmileJoke.setTextColor(Color.TRANSPARENT);
+                        mSmileJoke.setText(mSmileContent);
                         int meizhi = (int) (Math.random() * 10);
                         String imageUrl = mGankMeizhiList.get(meizhi).getUrl();
                         Glide.with(MeizhiAndSmileActivity.this)
@@ -129,7 +124,8 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     }
 
     private void getMeizhi() {
-        MeizhiData meizhiData = new MeizhiRetrofit().getService().getMeizhi(1);
+        MeizhiData meizhiData = new DataRetrofit("http://gank.avosapps.com/api")
+                .getService().getMeizhi(1);
         if (!meizhiData.error) {
             mGankMeizhiList.addAll(meizhiData.results);
         }
@@ -212,14 +208,16 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
                 if (!isReveal) {
                     smileTextEntrance(set);
                 }else {
-                    mSmileJoke.setText("");
+                    mSmileJoke.setTextColor(Color.TRANSPARENT);
                 }
+
             }
         });
         mRevealLayout.startReveal();
     }
 
     private void smileTextEntrance(AnimatorSet set) {
+        mSmileJoke.setTextColor(Color.parseColor("#ffffff"));
         set.playTogether(
                 ObjectAnimator.ofFloat(mSmileJoke, "scaleX", 0.3f, 0.85f, 1.3f, 1f),
                 ObjectAnimator.ofFloat(mSmileJoke, "scaleY", 0.3f, 0.85f, 1.3f, 1f),
@@ -227,7 +225,6 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
         );
         set.setDuration(1000);
         set.start();
-        mSmileJoke.setText(mSmileContent);
     }
 
 }

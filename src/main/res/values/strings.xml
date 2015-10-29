@@ -8,6 +8,9 @@
     <string name="net_unconnected">您的数据和wifi还没打来并不能获取到最新的笑话！</string>
     <string name="last_detail">已经是最后一条笑话啦!</string>
 
+    <string name="activity_originalityVideo_title">创意小视频</string>
+    <string name="activity_collect_title">收藏</string>
+    <string name="activity_meizhi_title">妹纸</string>
     <string name="smile_title">Smile</string>
     <string name="Meizhi_Smile">这是一款可以欣赏漂亮妹纸和看笑话的App, 是你烦恼，无聊时的最好的伙伴,  欢迎star https://github.com/Assassinss/smile </string>
 
@@ -20,5 +23,6 @@
 
     <string name="nav_meizhi">妹纸</string>
     <string name="nav_collect">收藏</string>
+    <string name="nav_video">创意小视频</string>
 
 </resources>

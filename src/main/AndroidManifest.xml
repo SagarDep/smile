@@ -25,16 +25,15 @@
 
         <activity
             android:name=".ui.MeizhiAndSmileActivity"
-            android:label="@string/smile_title"
+            android:label="MeizhiAndSmile"
             android:theme="@style/AppTheme.Activity">
 
         </activity>
 
         <activity
             android:name=".ui.MeizhiListActivity"
-            android:label="Meizhi"
+            android:label="@string/activity_meizhi_title"
             android:theme="@style/AppTheme.Activity">
-
         </activity>
 
         <activity android:name=".ui.MeizhiActivity">
@@ -44,10 +43,22 @@
         </activity>
 
         <activity android:name=".ui.VedioActivity"
-            ></activity>
+            >
+        </activity>
 
         <activity android:name=".ui.LoveCollectActivity"
-            ></activity>
+            android:label="@string/activity_collect_title"
+            >
+        </activity>
+
+        <!--<activity android:name=".ui.OriginalityVideoActivity"
+            android:label="@string/activity_originalityVideo_title">
+        </activity>
+
+        <activity android:name=".ui.PlayerActivity"
+            android:label="@string/activity_originalityVideo_title"
+            android:configChanges="orientation|screenSize">
+        </activity>-->
     </application>
 
 </manifest>

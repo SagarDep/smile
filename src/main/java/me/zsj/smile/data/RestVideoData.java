@@ -7,7 +7,7 @@ import me.zsj.smile.model.Gank;
 /**
  * Created by zsj on 2015/10/3 0003.
  */
-public class RestVedioData {
+public class RestVideoData {
 
     public boolean error;
     public List<Gank> results;
