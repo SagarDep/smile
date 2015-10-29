@@ -13,6 +13,10 @@
    * Butterknife对View 注解绑定
    * 分享图片和文字
 
+###10.29 更新
+   * 加入 reveal 动画提示笑话
+   * 修改UI 界面
+   * 修改UI 配色
 
 ###10.4 更新
    * 修复了之前妹纸图片页面滑动的小bug
@@ -21,10 +25,10 @@
    * 后续可能会更改App 界面,因为层级深了点
    
 
-<img src="/screenshots/Screenshot_2015-10-03-19-32-24-764.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-09-19-13-58-46-523.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-09-19-13-58-57-877.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-09-19-13-59-04-495.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-09-19-13-59-51-28.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-10-29-13-17-11-131.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-10-29-13-17-17-763.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-10-29-13-17-14-397.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-10-29-13-17-23-511.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-10-29-13-44-29-430.png" alt="screenshot" title="screenshot" width="270" height="490" />
 
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)
