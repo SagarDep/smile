@@ -3,13 +3,16 @@ package me.zsj.smile.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +29,7 @@ import me.zsj.smile.event.OnSmileItemTouchListener;
 import me.zsj.smile.model.Smile;
 import me.zsj.smile.R;
 import me.zsj.smile.adapter.SmileListAdapter;
+import me.zsj.smile.utils.FABAnimation;
 import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.SmileParser;
 import me.zsj.smile.utils.SnackUtils;
@@ -38,12 +42,10 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends SwipeRefreshActivity {
 
-    @Bind(R.id.recyclerview)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-    @Bind(R.id.nav_view)
-    NavigationView mNavigationView;
+    @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
+    @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+    @Bind(R.id.nav_view) NavigationView mNavigationView;
+    @Bind(R.id.fab) FloatingActionButton FAB;
 
     private SmileListAdapter mSmileListAdapter;
     private List<Smile> mSmileDatas;
@@ -165,8 +167,8 @@ public class MainActivity extends SwipeRefreshActivity {
                         SnackUtils.show(mRecyclerView, R.string.last_detail);
                     }
                 }
+                FABAnimation.fabAnimation(FAB, dy);
             }
-
         });
 
         itemClick();
@@ -185,7 +187,6 @@ public class MainActivity extends SwipeRefreshActivity {
             }
         });
     }
-
 
     private void getSmileData(int index) {
         setRefresh(true);
@@ -302,4 +303,14 @@ public class MainActivity extends SwipeRefreshActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 }

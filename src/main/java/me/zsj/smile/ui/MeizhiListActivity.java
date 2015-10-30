@@ -3,6 +3,7 @@ package me.zsj.smile.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +21,9 @@ import me.zsj.smile.adapter.MeizhiListAdapter;
 import me.zsj.smile.data.MeizhiData;
 import me.zsj.smile.data.RestVideoData;
 import me.zsj.smile.event.OnMeizhiItemTouchListener;
-import me.zsj.smile.event.OnSmileItemTouchListener;
 import me.zsj.smile.model.Gank;
 import me.zsj.smile.model.Meizhi;
+import me.zsj.smile.utils.FABAnimation;
 import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
@@ -37,6 +38,7 @@ import rx.schedulers.Schedulers;
 public class MeizhiListActivity extends SwipeRefreshActivity {
 
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
+    @Bind(R.id.fab) FloatingActionButton FAB;
     private MeizhiListAdapter mMeizhiListAdapter;
 
     private int mPage = 1;
@@ -157,6 +159,7 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                         mIsFirstTouch = false;
                     }
                 }
+                FABAnimation.fabAnimation(FAB, dy);
             }
         });
     }
