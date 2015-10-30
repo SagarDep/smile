@@ -16,7 +16,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zsj.smile.R;
 import me.zsj.smile.event.OnMeizhiItemTouchListener;
-import me.zsj.smile.event.OnSmileItemTouchListener;
 import me.zsj.smile.model.Meizhi;
 import me.zsj.smile.ui.view.MeizhiImageView;
 
@@ -77,8 +76,7 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
                 .crossFade()
                 .into(holder.imageView);
 
-        holder.imageView.setOnClickListener(new ItemClickListener(position));
-        holder.meizhi_item.setOnClickListener(new ItemClickListener(position));
+        holder.position = position;
     }
 
     @Override
@@ -87,35 +85,22 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
     }
 
 
-    class ItemClickListener implements View.OnClickListener {
-
-        int position;
-
-        public ItemClickListener(int position) {
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-            triggerClickListener(v, position);
-        }
-    }
-
-    private void triggerClickListener(View v, int position) {
-        if (onMeizhiItemTouchListener != null) {
-            onMeizhiItemTouchListener.onItemClick(v, position);
-        }
-    }
-
-
-    class MeizhiHolder extends RecyclerView.ViewHolder {
+    class MeizhiHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.meizhi_imageview) MeizhiImageView imageView;
         @Bind(R.id.meizhi_desc) TextView desc_text;
         @Bind(R.id.meizhi_desc_item) LinearLayout meizhi_item;
+        int position;
 
         public MeizhiHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            imageView.setOnClickListener(this);
+            meizhi_item.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onMeizhiItemTouchListener.onItemClick(v, position);
         }
     }
 }
