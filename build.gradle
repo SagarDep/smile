@@ -36,5 +36,8 @@ dependencies {
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
     compile files('libs/jsoup-1.7.2.jar')
     compile files('libs/litepal-1.2.0-src.jar')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e3429ec8e1785a68d042b584ebd0208c7f5f021
 }
