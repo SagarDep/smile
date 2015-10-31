@@ -12,6 +12,7 @@
    * 加入了优雅的 Activity 之间转场动画
    * Butterknife对View 注解绑定
    * 分享图片和文字
+   * RxAndroid 的使用
 
 ###10.29 更新
    * 加入 reveal 动画提示笑话
