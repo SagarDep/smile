@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import me.zsj.smile.R;
 import me.zsj.smile.event.OnMeizhiItemTouchListener;
 import me.zsj.smile.model.Meizhi;
-import me.zsj.smile.ui.view.MeizhiImageView;
+import me.zsj.smile.widget.MeizhiImageView;
 
 /**
  * Created by zsj on 2015/9/17 0017.
@@ -69,7 +69,7 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
         if (desc != null) {
             holder.desc_text.setText(desc);
         }
-        holder.imageView.setOriginalSize(50, 53);
+        holder.imageView.setOriginalSize(50, 50);
         Glide.with(mContext)
                 .load(meizhi.getUrl())
                 .centerCrop()

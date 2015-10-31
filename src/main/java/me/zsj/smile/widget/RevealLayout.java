@@ -1,4 +1,4 @@
-package me.zsj.smile.ui.view;
+package me.zsj.smile.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

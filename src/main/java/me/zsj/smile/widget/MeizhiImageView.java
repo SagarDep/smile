@@ -1,4 +1,4 @@
-package me.zsj.smile.ui.view;
+package me.zsj.smile.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -51,7 +51,7 @@
 
     </LinearLayout>
 
-    <me.zsj.smile.ui.view.RevealLayout
+    <me.zsj.smile.widget.RevealLayout
         android:id="@+id/revealLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             app:borderWidth="0dp"
             app:elevation="4dp" />
 
-    </me.zsj.smile.ui.view.RevealLayout>
+    </me.zsj.smile.widget.RevealLayout>
 
     <include layout="@layout/view_toolbar"/>
 </FrameLayout>
