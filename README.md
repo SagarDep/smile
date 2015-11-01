@@ -14,6 +14,10 @@
    * 分享图片和文字
    * RxAndroid 的使用
 
+###10.31更新
+   * 修改妹纸图片UI，去掉Toolbar看起来更有趣了
+   * 妹纸图片可以缩放了，放大看起来也不错
+
 ###10.29 更新
    * 加入 reveal 动画提示笑话
    * 修改UI 界面
@@ -29,7 +33,7 @@
 <img src="/screenshots/Screenshot_2015-10-29-13-17-11-131.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-10-29-13-17-17-763.png" alt="screenshot" title="screenshot" width="270" height="490" />
 <img src="/screenshots/Screenshot_2015-10-29-13-17-14-397.png" alt="screenshot" title="screenshot" width="270" height="490" />
 <img src="/screenshots/Screenshot_2015-10-29-13-17-23-511.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-10-29-13-44-29-430.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-10-31-17-15-03-382.png" alt="screenshot" title="screenshot" width="270" height="490" />
 
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)
