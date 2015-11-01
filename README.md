@@ -13,7 +13,8 @@
    * Butterknife对View 注解绑定
    * 分享图片和文字
    * RxAndroid 的使用
-
+###11.01更新
+   * 在妹纸详情activity中加入了下拉退出activity的功能，参考了[pull-back-layout](https://github.com/oxoooo/pull-back-layout)库，之所以没用pull-back-layout原因是PhotoView和ViewDrapHelper一起用时，图片缩小会发生异常，程序会crash掉，所以自己重新写了个Layout处理了一下事件分发解决了异常。
 ###10.31更新
    * 修改妹纸图片UI，去掉Toolbar看起来更有趣了
    * 妹纸图片可以缩放了，放大看起来也不错
