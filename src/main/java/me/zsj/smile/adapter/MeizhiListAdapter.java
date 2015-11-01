@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
         holder.imageView.setOriginalSize(50, 50);
         Glide.with(mContext)
                 .load(meizhi.getUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .crossFade()
                 .into(holder.imageView);

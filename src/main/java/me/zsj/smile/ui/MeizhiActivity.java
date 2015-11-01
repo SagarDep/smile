@@ -9,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zsj.smile.R;
 import me.zsj.smile.utils.RxMeizhi;
+import me.zsj.smile.widget.PullBackLayout;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -26,9 +28,10 @@ public class MeizhiActivity extends AppCompatActivity {
 
     private String mMeizhiUrl;
     private String mMeizhiDate;
-    public static String TRANSIT_PIC = "picture";
+    public static final String TRANSIT_PIC = "picture";
     PhotoViewAttacher mAttacher;
     @Bind(R.id.iv_photo) ImageView mImageView;
+    @Bind(R.id.pullBackLayout) PullBackLayout mPullBackLayout;
 
 
     @Override
@@ -45,7 +48,12 @@ public class MeizhiActivity extends AppCompatActivity {
         Glide.with(this).load(mMeizhiUrl).into(mImageView);
 
         mAttacher = new PhotoViewAttacher(mImageView);
-
+        mPullBackLayout.setPullCallBack(new PullBackLayout.PullCallBack() {
+            @Override
+            public void onPullCompleted() {
+                finish();
+            }
+        });
     }
 
     @OnClick(R.id.fav)
@@ -62,7 +70,7 @@ public class MeizhiActivity extends AppCompatActivity {
                     public void call(Object o) {
                         Intent shareIntent = new Intent();
                         shareIntent.setAction(Intent.ACTION_SEND);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, (Uri)o);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, (Uri) o);
                         shareIntent.setType("image/jpeg");
                         startActivity(Intent.createChooser(shareIntent, "分享图片到..."));
                     }

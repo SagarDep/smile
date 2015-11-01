@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,10 +114,8 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
                         mSmileJoke.setText(mSmileContent);
                         int meizhi = (int) (Math.random() * 10);
                         String imageUrl = mGankMeizhiList.get(meizhi).getUrl();
-                        Glide.with(MeizhiAndSmileActivity.this)
+                        Picasso.with(MeizhiAndSmileActivity.this)
                                 .load(imageUrl)
-                                .centerCrop()
-                                .crossFade()
                                 .into(mMeizhiView);
                     }
                 });

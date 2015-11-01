@@ -59,7 +59,7 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_meizhi;
+        return R.layout.activity_meizhi_list;
     }
 
     @Override

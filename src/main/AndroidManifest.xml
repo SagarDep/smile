@@ -32,11 +32,11 @@
 
         <activity
             android:name=".ui.MeizhiListActivity"
-            android:label="@string/activity_meizhi_title"
-            android:theme="@style/AppTheme.Activity">
+            android:label="@string/activity_meizhi_title">
         </activity>
 
-        <activity android:name=".ui.MeizhiActivity">
+        <activity android:name=".ui.MeizhiActivity"
+            android:theme="@style/AppTheme.Activity">
         </activity>
 
         <activity android:name=".ui.AboutActivity">
