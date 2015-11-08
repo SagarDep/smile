@@ -17,6 +17,7 @@
 ###11.08更新
    * 加入收藏妹纸功能
    * 修改UI配色
+   * 修改代码，去掉一些冗余的代码
 
 ###11.01更新
    * 在妹纸详情activity中加入了下拉退出activity的功能，参考了[pull-back-layout](https://github.com/oxoooo/pull-back-layout)库，之所以没用pull-back-layout原因是PhotoView和ViewDrapHelper一起用时，图片缩小会发生异常，程序会crash掉，所以自己重新写了个Layout处理了一下事件分发解决了异常。
