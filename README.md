@@ -14,6 +14,10 @@
    * 分享图片和文字
    * RxAndroid 的使用
 
+###11.08更新
+   * 加入收藏妹纸功能
+   * 修改UI配色
+
 ###11.01更新
    * 在妹纸详情activity中加入了下拉退出activity的功能，参考了[pull-back-layout](https://github.com/oxoooo/pull-back-layout)库，之所以没用pull-back-layout原因是PhotoView和ViewDrapHelper一起用时，图片缩小会发生异常，程序会crash掉，所以自己重新写了个Layout处理了一下事件分发解决了异常。
 
@@ -33,10 +37,11 @@
    * 后续可能会更改App 界面,因为层级深了点
    
 
-<img src="/screenshots/Screenshot_2015-10-29-13-17-11-131.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-10-29-13-17-17-763.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-10-29-13-17-14-397.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-10-29-13-17-23-511.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-10-31-17-15-03-382.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-08-12-44-14-215.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-11-08-12-44-21-616.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-08-12-44-24-242.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-08-12-44-29-256.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-08-13-34-03-473.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-08-13-38-28-397.png" alt="screenshot" title="screenshot" width="270" height="490" />
 
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)
