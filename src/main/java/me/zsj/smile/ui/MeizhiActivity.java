@@ -1,20 +1,32 @@
 package me.zsj.smile.ui;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
+import com.litesuits.orm.db.assit.QueryBuilder;
+import com.litesuits.orm.db.assit.WhereBuilder;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zsj.smile.MyApp;
 import me.zsj.smile.R;
+import me.zsj.smile.model.GirlCollect;
 import me.zsj.smile.utils.RxMeizhi;
 import me.zsj.smile.widget.PullBackLayout;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,13 +38,21 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class MeizhiActivity extends AppCompatActivity {
 
+
+    @Bind(R.id.iv_photo) ImageView mImageView;
+    @Bind(R.id.pullBackLayout) PullBackLayout mPullBackLayout;
+    @Bind(R.id.fav) FloatingActionButton mFavFAB;
+    @Bind(R.id.share) FloatingActionButton mShareFAB;
+    PhotoViewAttacher mViewAttacher;
+
     private String mMeizhiUrl;
     private String mMeizhiDate;
     public static final String TRANSIT_PIC = "picture";
-    PhotoViewAttacher mAttacher;
-    @Bind(R.id.iv_photo) ImageView mImageView;
-    @Bind(R.id.pullBackLayout) PullBackLayout mPullBackLayout;
 
+    private boolean mIsGirlCollected;
+    private boolean mIsFabAppear = true;
+
+    final AnimatorSet set = new AnimatorSet();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,26 +60,89 @@ public class MeizhiActivity extends AppCompatActivity {
         setContentView(R.layout.meizhi_view);
         ButterKnife.bind(this);
 
-
         mMeizhiUrl = getIntent().getExtras().getString(MeizhiListActivity.MEIZHI_URL);
         mMeizhiDate = getIntent().getExtras().getString(MeizhiListActivity.MEIZHI_DATE);
 
         ViewCompat.setTransitionName(mImageView, TRANSIT_PIC);
         Glide.with(this).load(mMeizhiUrl).into(mImageView);
-
-        mAttacher = new PhotoViewAttacher(mImageView);
+        
+        mViewAttacher = new PhotoViewAttacher(mImageView);
         mPullBackLayout.setPullCallBack(new PullBackLayout.PullCallBack() {
             @Override
             public void onPullCompleted() {
-                finish();
+                MeizhiActivity.this.onBackPressed();
+            }
+        });
+        
+        imageTap();
+        checkWhetherCollected();
+
+    }
+    
+    private void imageTap() {
+        mViewAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+            @Override
+            public void onViewTap(View view, float v, float v1) {
+                int yHeight = pxTodp(100);
+                if (mIsFabAppear) {
+                    set.playTogether(ObjectAnimator.ofFloat(mFavFAB, "translationY", 0, yHeight),
+                            ObjectAnimator.ofFloat(mShareFAB, "translationY", 0, yHeight));
+                    mIsFabAppear = false;
+                }else {
+                    set.playTogether(ObjectAnimator.ofFloat(mFavFAB, "translationY", yHeight, 0),
+                            ObjectAnimator.ofFloat(mShareFAB, "translationY", yHeight, 0));
+                    mIsFabAppear = true;
+                }
+                set.setInterpolator(new AccelerateDecelerateInterpolator());
+                set.setDuration(180);
+                set.start();
             }
         });
     }
 
+    private int pxTodp(int dp) {
+        float size = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp, getResources().getDisplayMetrics());
+        return (int) size;
+    }
+
+
+    private void checkWhetherCollected() {
+        QueryBuilder query = new QueryBuilder(GirlCollect.class).where("girlDate = ?", new String[]{mMeizhiDate});
+        long nums = MyApp.mLiteOrm.queryCount(query);
+        if (nums == 1) {
+            mFavFAB.setImageResource(R.mipmap.ab_fav_active);
+            mIsGirlCollected = true;
+        }else {
+            mIsGirlCollected = false;
+        }
+    }
+
     @OnClick(R.id.fav)
     public void favoriteGril() {
-        Toast.makeText(this, "功能还在开发当中", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "功能还在开发当中", Toast.LENGTH_LONG).show();
+        if (mIsGirlCollected) {
+            MyApp.mLiteOrm.delete(GirlCollect.class,
+                    WhereBuilder.create().equals("girlDate", mMeizhiDate));
+            mIsGirlCollected = false;
+            mFavFAB.setImageResource(R.mipmap.ab_fav_normal);
+            toast("取消收藏妹纸...");
+        }else {
+            GirlCollect girlCollect = new GirlCollect();
+            girlCollect.girlDate = mMeizhiDate;
+            girlCollect.girlUrl = mMeizhiUrl;
+            MyApp.mLiteOrm.save(girlCollect);
+            mFavFAB.setImageResource(R.mipmap.ab_fav_active);
+            mIsGirlCollected = true;
+            toast("成功收藏妹纸...");
+        }
     }
+
+    private void toast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    }
+
 
     @OnClick(R.id.share)
     public void sharePicture() {

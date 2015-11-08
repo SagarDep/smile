@@ -58,9 +58,9 @@ public class SmileParser {
             String url = href.attr("href");
             String smileContent = smileText.text();
 
-            smile.setTitle(title);
-            smile.setTitleUrl(SMILE_URL + url);
-            smile.setSmileContent(smileContent);
+            smile.title = title;
+            smile.titleUrl = SMILE_URL + url;
+            smile.smileContent = smileContent;
 
             mSmileLists.add(smile);
         }
@@ -69,13 +69,4 @@ public class SmileParser {
 
     }
 
-
-    public String getJokeInfo(String url) {
-
-        String htmlInfo = OkHttpUtils.run(url);
-        Document document = Jsoup.parse(htmlInfo);
-        Elements elements = document.getElementsByClass("arcBody");
-        String jokeInfo = elements.text();
-        return jokeInfo;
-    }
 }

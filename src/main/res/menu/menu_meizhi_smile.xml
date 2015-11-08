@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/collect_smile"
+   <!-- <item android:id="@+id/collect_smile"
         app:showAsAction="ifRoom"
         android:icon="@mipmap/ab_fav_normal"
         >
-    </item>
+    </item>-->
     <item
         android:id="@+id/share"
         android:orderInCategory="100"

@@ -65,15 +65,14 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
 
         Meizhi meizhi = mMeizhiList.get(position);
         int limit = 48;
-        String desc = meizhi.getDesc().length() > limit ? meizhi.getDesc().substring(0, limit) + "..." :
-                meizhi.getDesc();
+        String desc = meizhi.desc.length() > limit ? meizhi.desc.substring(0, limit) + "..." :
+                meizhi.desc;
         if (desc != null) {
             holder.desc_text.setText(desc);
         }
         holder.imageView.setOriginalSize(50, 50);
         Glide.with(mContext)
-                .load(meizhi.getUrl())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .load(meizhi.url)
                 .centerCrop()
                 .crossFade()
                 .into(holder.imageView);

@@ -23,7 +23,7 @@ public abstract class SwipeRefreshActivity extends ToolbarActivity {
     private void doRefresh() {
         if (mRefreshLayout != null) {
             mRefreshLayout.setColorSchemeColors(
-                    R.color.refresh_progress_3, R.color.refresh_progress_2,
+                    R.color.refresh_progress_2, R.color.refresh_progress_3,
                     R.color.refresh_progress_1);
 
             mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -45,7 +45,7 @@ public abstract class SwipeRefreshActivity extends ToolbarActivity {
                 public void run() {
                    mRefreshLayout.setRefreshing(false);
                 }
-            }, 500);
+            }, 1000);
         }else {
             mRefreshLayout.setRefreshing(true);
         }

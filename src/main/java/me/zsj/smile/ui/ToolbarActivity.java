@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.BaseAdapter;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zsj.smile.R;
@@ -11,7 +13,7 @@ import me.zsj.smile.R;
 /**
  * Created by zsj on 2015/9/19 0019.
  */
-public abstract class ToolbarActivity extends AppCompatActivity{
+public abstract class ToolbarActivity extends BaseActivity{
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.appbar) AppBarLayout mAppBar;

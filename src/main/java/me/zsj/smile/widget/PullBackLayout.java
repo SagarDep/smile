@@ -1,6 +1,10 @@
 package me.zsj.smile.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
@@ -19,6 +23,8 @@ public class PullBackLayout extends FrameLayout{
     private ViewDragHelper mDragHelper;
     private int mReleasedHeight;
     private PullCallBack pullCallBack;
+    private FrameLayout mBackgroudLayout;
+    private ColorDrawable mBackgroud;
 
     public void setPullCallBack(PullCallBack pullCallBack) {
         this.pullCallBack = pullCallBack;
@@ -32,7 +38,9 @@ public class PullBackLayout extends FrameLayout{
         super(context, attrs, defStyleAttr);
 
         mDragHelper = ViewDragHelper.create(this, 1f / 8f, new DragCallBack());
-        mReleasedHeight = ScreenUtils.getHeight(context) / 4;
+        mReleasedHeight = ScreenUtils.getHeight(context) / 6;
+        mBackgroud = new ColorDrawable(Color.parseColor("#212121"));
+
     }
 
 
@@ -76,6 +84,22 @@ public class PullBackLayout extends FrameLayout{
                 invalidate();
             }
         }
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            super.onViewPositionChanged(changedView, left, top, dx, dy);
+
+            float progress = Math.min(1f, ((float)top / (float)getHeight()) * 5f);
+            mBackgroud.setAlpha((int) (0xff * (1f - progress)));
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mBackgroudLayout = (FrameLayout) getChildAt(0);
+        mBackgroudLayout.setBackground(mBackgroud);
     }
 
     @Override

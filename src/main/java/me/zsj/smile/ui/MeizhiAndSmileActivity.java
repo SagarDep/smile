@@ -6,17 +6,16 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.ScreenUtils;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -48,14 +48,10 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     @Bind(R.id.image_meizhi) ImageView mMeizhiView;
     @Bind(R.id.smile_joke) TextView mSmileJoke;
 
-    public static final String MEIZHI_STRATING_LOCATION = "Mezhi_Activity";
     public static final String SMILE_DESCRIPTION = "desc";
 
-    private int drawingStartLocation;
     private String mSmileContent;
-
     private List<Meizhi> mGankMeizhiList;
-
     private AnimatorSet set = new AnimatorSet();
 
     @Override
@@ -63,12 +59,16 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setBarAlpha(0.7f);
+        mAppBar.setBackgroundColor(Color.TRANSPARENT);
+        mToolbar.setBackgroundColor(Color.TRANSPARENT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mAppBar.setElevation(0f);
+        }
 
         setNavigationListener();
 
         mSmileContent = getIntent().getExtras().getString(SMILE_DESCRIPTION);
-        //setOnPreDraw(savedInstanceState);
         mGankMeizhiList = new ArrayList<>();
     }
 
@@ -97,7 +97,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     }
 
     private void loadBeautifulGril() {
-        Observable.just("smile")
+        Subscription s = Observable.just("smile")
                 .map(new Func1<String, Object>() {
                     @Override
                     public Object call(String s) {
@@ -113,48 +113,23 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
                         mSmileJoke.setTextColor(Color.TRANSPARENT);
                         mSmileJoke.setText(mSmileContent);
                         int meizhi = (int) (Math.random() * 10);
-                        String imageUrl = mGankMeizhiList.get(meizhi).getUrl();
+                        String imageUrl = mGankMeizhiList.get(meizhi).url;
                         Picasso.with(MeizhiAndSmileActivity.this)
                                 .load(imageUrl)
                                 .into(mMeizhiView);
                     }
                 });
+        addSubscription(s);
     }
 
     private void getMeizhi() {
-        MeizhiData meizhiData = new DataRetrofit("http://gank.avosapps.com/api")
-                .getService().getMeizhi(1);
+        int page = (int) (Math.random() * 5);
+        MeizhiData meizhiData = new DataRetrofit().getService().getMeizhi(page);
         if (!meizhiData.error) {
             mGankMeizhiList.addAll(meizhiData.results);
         }
     }
 
-    private void setOnPreDraw(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            contentView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    contentView.getViewTreeObserver().removeOnPreDrawListener(this);
-                    startAnimation();
-                    return true;
-                }
-            });
-        }
-    }
-
-    private void startAnimation() {
-
-        contentView.setScaleX(0.1f);
-        contentView.setScaleY(0.1f);
-        contentView.setPivotY(drawingStartLocation);
-
-        contentView.animate()
-                .scaleX(1f)
-                .scaleY(1f)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setDuration(1000)
-                .start();
-    }
 
     @Override
     public void onBackPressed() {
@@ -191,9 +166,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, "分享个笑话给大家: " + mSmileContent);
             shareIntent.setType("text/plain");
-            startActivity(shareIntent);
-        } else if (itemId == R.id.collect_smile) {
-            item.setIcon(R.mipmap.ab_fav_active);
+            startActivity(Intent.createChooser(shareIntent, "分享到..."));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -205,7 +178,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
             public void onRevealFinish(boolean isReveal) {
                 if (!isReveal) {
                     smileTextEntrance(set);
-                }else {
+                } else {
                     mSmileJoke.setTextColor(Color.TRANSPARENT);
                 }
 

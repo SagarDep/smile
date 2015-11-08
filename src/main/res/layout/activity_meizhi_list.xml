@@ -12,7 +12,7 @@
 
         <include layout="@layout/view_toolbar"/>
 
-        <include layout="@layout/refresh_layout"></include>
+        <include layout="@layout/refresh_layout"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

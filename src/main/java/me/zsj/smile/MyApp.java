@@ -1,19 +1,23 @@
 package me.zsj.smile;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.app.Application;
 
-import org.litepal.LitePalApplication;
-import org.litepal.tablemanager.Connector;
+import com.litesuits.orm.LiteOrm;
 
 /**
  * Created by zsj on 2015/7/20 0020.
  */
-public class MyApp extends LitePalApplication {
+public class MyApp extends Application {
+
+    public static LiteOrm mLiteOrm;
 
     @Override
     public void onCreate() {
         super.onCreate();
         //初始化数据库
-        SQLiteDatabase db = Connector.getDatabase();
+        mLiteOrm = LiteOrm.newSingleInstance(this, "smile.db");
+        if (BuildConfig.DEBUG) {
+            mLiteOrm.setDebugged(true);
+        }
     }
 }

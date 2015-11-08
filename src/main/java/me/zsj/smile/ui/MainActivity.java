@@ -16,13 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import org.litepal.crud.DataSupport;
+import com.litesuits.orm.db.assit.QueryBuilder;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import me.zsj.smile.MyApp;
 import me.zsj.smile.event.OnSmileItemTouchListener;
 import me.zsj.smile.model.Smile;
 import me.zsj.smile.R;
@@ -32,6 +34,7 @@ import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.SmileParser;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -63,7 +66,8 @@ public class MainActivity extends SwipeRefreshActivity {
      */
     private static final int LOAD_MORE = 2;
 
-    private int mOffset = 0;
+    private int mStart = 1;
+    QueryBuilder query = new QueryBuilder(Smile.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +95,12 @@ public class MainActivity extends SwipeRefreshActivity {
                         if (menuItem.getItemId() == R.id.meizhi) {
                             startToActivity(MeizhiListActivity.class);
                         } else if (menuItem.getItemId() == R.id.collect) {
-                            Toast.makeText(MainActivity.this, "功能还在开发中...", Toast.LENGTH_LONG).show();
-                            //startToActivity(LoveCollectActivity.class);
+                           // Toast.makeText(MainActivity.this, "功能还在开发中...", Toast.LENGTH_LONG).show();
+                            startToActivity(LoveCollectActivity.class);
+                        }else if (menuItem.getItemId() == R.id.home) {
+                            menuItem.setChecked(true);
                         }
+                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
@@ -116,7 +123,6 @@ public class MainActivity extends SwipeRefreshActivity {
         super.requestDataRefresh();
 
         mIndex = 1;
-        mOffset = 0;
         getSmileData(LOAD_REFRESH);
     }
 
@@ -138,11 +144,10 @@ public class MainActivity extends SwipeRefreshActivity {
 
     private void initRecyclerView() {
 
-        mSmileDatas = DataSupport.offset(mOffset).limit(10)
-                .order("id asc").find(Smile.class);
+        query.limit(1, 10);
+        mSmileDatas = MyApp.mLiteOrm.query(query);
         mSmileListAdapter = new SmileListAdapter(MainActivity.this, mSmileDatas);
 
-        //final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         final StaggeredGridLayoutManager layoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
@@ -158,7 +163,6 @@ public class MainActivity extends SwipeRefreshActivity {
                         >= mSmileListAdapter.getItemCount() - 4;
                 if (!mRefreshLayout.isRefreshing() && isButtom) {
                     mIndex++;
-                    mOffset += 10;
                     if (mIndex <= 50) {
                         getSmileData(LOAD_MORE);
                     } else {
@@ -179,8 +183,8 @@ public class MainActivity extends SwipeRefreshActivity {
             @Override
             public void onItemClick(View view, Smile smile) {
                 Intent intent = new Intent(MainActivity.this, MeizhiAndSmileActivity.class);
-                intent.putExtra(SMILE_DATA_URL, smile.getTitleUrl());
-                intent.putExtra(MeizhiAndSmileActivity.SMILE_DESCRIPTION, smile.getSmileContent());
+                intent.putExtra(SMILE_DATA_URL, smile.titleUrl);
+                intent.putExtra(MeizhiAndSmileActivity.SMILE_DESCRIPTION, smile.smileContent);
                 startActivity(intent);
             }
         });
@@ -188,7 +192,7 @@ public class MainActivity extends SwipeRefreshActivity {
 
     private void getSmileData(int index) {
         setRefresh(true);
-        Observable.just(index)
+        Subscription s = Observable.just(index)
                 .map(new Func1<Integer, Object>() {
                     @Override
                     public Object call(Integer integer) {
@@ -212,6 +216,7 @@ public class MainActivity extends SwipeRefreshActivity {
                         }
                     }
                 });
+        addSubscription(s);
     }
 
     /**
@@ -222,9 +227,9 @@ public class MainActivity extends SwipeRefreshActivity {
             if (NetUtils.checkNet(MainActivity.this)) {
                 mSmileDatas = SmileParser.getInstance().getSimle(SMILE_URL);
                 //刷新过程中删除旧数据
-                DataSupport.deleteAll(Smile.class);
+                MyApp.mLiteOrm.deleteAll(Smile.class);
                 //保存下载解析到的新数据
-                DataSupport.saveAll(mSmileDatas);
+                MyApp.mLiteOrm.save(mSmileDatas);
                 mSmileListAdapter.setDatas(mSmileDatas);
             } else {
                 SnackUtils.show(mRecyclerView, R.string.net_unconnected);
@@ -242,12 +247,10 @@ public class MainActivity extends SwipeRefreshActivity {
             if (NetUtils.checkNet(MainActivity.this)) {
                 mSmileDatas = SmileParser.getInstance().getSimle(SMILE_URL + "index_" + mIndex + ".html");
                 //将解析得到的数据全部添加到数据库中做缓存
-                DataSupport.saveAll(mSmileDatas);
                 mSmileListAdapter.addAll(mSmileDatas);
             } else {
-                // 分页查询，id 是 litepal 自动生成的
-                mSmileDatas = DataSupport.offset(mOffset).limit(10)
-                        .order("id asc").find(Smile.class);
+                // 分页查询
+                mSmileDatas = MyApp.mLiteOrm.query(query.limit(mStart + 10, 10));
                 mSmileListAdapter.addAll(mSmileDatas);
                 SnackUtils.show(mRecyclerView, R.string.net_unconnected);
             }
@@ -266,7 +269,6 @@ public class MainActivity extends SwipeRefreshActivity {
     public void onFab(View view) {
 
         mIndex = 1;
-        mOffset = 0;
         /**
          * 保证了 RecyclerView 在回滚到 item 为 0位置后应用不会出现崩溃的情况
          */

@@ -16,12 +16,12 @@ public class DataRetrofit {
     final static Gson gson =
         new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").serializeNulls().create();
 
-    public DataRetrofit(String url) {
+    public DataRetrofit() {
         OkHttpClient client = new OkHttpClient();
         client.setReadTimeout(12, TimeUnit.SECONDS);
 
         RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(client))
-            .setEndpoint(url)
+            .setEndpoint("http://gank.avosapps.com/api")
             .setConverter(new GsonConverter(gson))
             .build();
         service = restAdapter.create(Data.class);

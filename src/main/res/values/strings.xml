@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smile^_^ </string>
+    <string name="app_name">休闲时刻</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -21,8 +21,8 @@
     <string name="refreshVedio">刷新</string>
     <string name="openWithBrowse">在浏览器中打开</string>
 
+    <string name="nav_home">笑话</string>
     <string name="nav_meizhi">妹纸</string>
     <string name="nav_collect">收藏</string>
-    <string name="nav_video">创意小视频</string>
 
 </resources>

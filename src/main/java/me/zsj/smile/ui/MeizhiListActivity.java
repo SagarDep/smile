@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import me.zsj.smile.Data;
 import me.zsj.smile.DataRetrofit;
 import me.zsj.smile.R;
 import me.zsj.smile.adapter.MeizhiListAdapter;
@@ -27,6 +28,7 @@ import me.zsj.smile.utils.FABAnimation;
 import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -37,25 +39,28 @@ import rx.schedulers.Schedulers;
  */
 public class MeizhiListActivity extends SwipeRefreshActivity {
 
-    @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
-    @Bind(R.id.fab) FloatingActionButton FAB;
-    private MeizhiListAdapter mMeizhiListAdapter;
-
     private int mPage = 1;
-    private static int PRELOAD_SIZE = 6;
-    private static int LOAD_REFRESH = 1;
-    private static int LOAD_MORE = 2;
-    public static String MEIZHI_URL = "MEIZHI_URL";
-    public static String MEIZHI_DATE = "MEIZHI_DATE";
+    private static final int PRELOAD_SIZE = 6;
+    private static final int LOAD_REFRESH = 1;
+    private static final int LOAD_MORE = 2;
+    public static final String MEIZHI_URL = "MEIZHI_URL";
+    public static final String MEIZHI_DATE = "MEIZHI_DATE";
     public static final String VEDIO_URL = "VEDIO_URL";
     public static final String VEDIO_DESC = "VEDIO_DESC";
-    private static final String GANK_URL = "http://gank.avosapps.com/api";
+
+
+    @Bind(R.id.recyclerview)
+    RecyclerView mRecyclerView;
+    @Bind(R.id.fab)
+    FloatingActionButton FAB;
+    private MeizhiListAdapter mMeizhiListAdapter;
+
 
     private boolean mIsFirstTouch = true;
 
     private List<Meizhi> mMeizhiLists = new ArrayList<>();
     private List<Gank> mGankLists = new ArrayList<>();
-    DataRetrofit mDataRetrofit;
+    private Data sData;
 
     @Override
     protected int getLayoutId() {
@@ -67,10 +72,10 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (mDataRetrofit == null) {
-            mDataRetrofit = new DataRetrofit(GANK_URL);
-        }
 
+        if (sData == null) {
+            sData = new DataRetrofit().getService();
+        }
         setRecyclerView();
         setNavigationListener();
         itemClick();
@@ -85,8 +90,8 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                 } else if (view.getId() == R.id.meizhi_desc_item) {
                     if (getVedioDataCount() > position) {
                         Intent intent = new Intent(MeizhiListActivity.this, VedioActivity.class);
-                        intent.putExtra(VEDIO_URL, mGankLists.get(position).getUrl());
-                        intent.putExtra(VEDIO_DESC, mGankLists.get(position).getDesc());
+                        intent.putExtra(VEDIO_URL, mGankLists.get(position).url);
+                        intent.putExtra(VEDIO_DESC, mGankLists.get(position).desc);
                         startActivity(intent);
                     } else {
                         SnackUtils.show(mRecyclerView, "没有视频啦啦啦!!!");
@@ -99,9 +104,9 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
 
     private void startToMeizhiActivity(View view, int position) {
         Intent intent = new Intent(MeizhiListActivity.this, MeizhiActivity.class);
-        intent.putExtra(MEIZHI_URL, mMeizhiListAdapter.getDatas().get(position).getUrl());
+        intent.putExtra(MEIZHI_URL, mMeizhiListAdapter.getDatas().get(position).url);
         intent.putExtra(MEIZHI_DATE,
-                mMeizhiListAdapter.getDatas().get(position).getPublishedAt().substring(0, 10));
+                mMeizhiListAdapter.getDatas().get(position).publishedAt.substring(0, 10));
         ActivityOptionsCompat optionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(MeizhiListActivity.this,
                         view, MeizhiActivity.TRANSIT_PIC);
@@ -121,17 +126,17 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setRefresh(true);
-                getMeizhiData(LOAD_REFRESH);
-            }
-        }, 350);
-
+        if (NetUtils.checkNet(MeizhiListActivity.this)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setRefresh(true);
+                    getMeizhiData(LOAD_REFRESH);
+                }
+            }, 350);
+        }
 
     }
-
 
     private void setRecyclerView() {
 
@@ -169,15 +174,15 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     }
 
     private void getMeizhiData(final int index) {
-        Observable.just(index)
+        Subscription s = Observable.just(index)
                 .map(new Func1<Integer, Object>() {
                     @Override
                     public Object call(Integer integer) {
                         int success = 1;
                         if (index == LOAD_REFRESH) {
-                            getRefreshMeizhi();
+                            fetchMeizhi();
                         } else if (index == LOAD_MORE) {
-                            getMoreMeizhi();
+                            fetchMoreMeizhi();
                         }
                         return success;
                     }
@@ -193,37 +198,34 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                         }
                     }
                 });
+        addSubscription(s);
     }
 
     private MeizhiData createMeizhiDataWithVedioData(MeizhiData meizhiData, RestVideoData restVideoData) {
 
         for (int i = 0; i < restVideoData.results.size(); i++) {
             Meizhi meizhi = meizhiData.results.get(i);
-            meizhi.setDesc(meizhi.getDesc() + restVideoData.results.get(i).getDesc());
+            meizhi.desc = meizhi.desc + restVideoData.results.get(i).desc;
         }
         return meizhiData;
     }
 
-    private void getRefreshMeizhi() {
-        if (NetUtils.checkNet(MeizhiListActivity.this)) {
-            MeizhiData meizhiData = mDataRetrofit.getService().getMeizhi(1);
-            RestVideoData restVideoData = mDataRetrofit.getService().getRestVedioData(1);
-            meizhiData = createMeizhiDataWithVedioData(meizhiData, restVideoData);
-            saveVedioData(restVideoData.results);
-            mMeizhiLists = meizhiData.results;
-            mMeizhiListAdapter.setDatas(mMeizhiLists);
-        }
+    private void fetchMeizhi() {
+        MeizhiData meizhiData = sData.getMeizhi(1);
+        RestVideoData restVideoData = sData.getRestVedioData(1);
+        meizhiData = createMeizhiDataWithVedioData(meizhiData, restVideoData);
+        saveVedioData(restVideoData.results);
+        mMeizhiLists = meizhiData.results;
+        mMeizhiListAdapter.setDatas(mMeizhiLists);
     }
 
-    private void getMoreMeizhi() {
-        if (NetUtils.checkNet(MeizhiListActivity.this)) {
-            MeizhiData meizhiData = mDataRetrofit.getService().getMeizhi(mPage);
-            RestVideoData restVideoData = mDataRetrofit.getService().getRestVedioData(mPage);
-            meizhiData = createMeizhiDataWithVedioData(meizhiData, restVideoData);
-            addAllVedioData(restVideoData.results);
-            mMeizhiLists = meizhiData.results;
-            mMeizhiListAdapter.addAll(mMeizhiLists);
-        }
+    private void fetchMoreMeizhi() {
+        MeizhiData meizhiData = sData.getMeizhi(mPage);
+        RestVideoData restVideoData = sData.getRestVedioData(mPage);
+        meizhiData = createMeizhiDataWithVedioData(meizhiData, restVideoData);
+        addAllVedioData(restVideoData.results);
+        mMeizhiLists = meizhiData.results;
+        mMeizhiListAdapter.addAll(mMeizhiLists);
     }
 
     private void saveVedioData(List<Gank> vedioData) {

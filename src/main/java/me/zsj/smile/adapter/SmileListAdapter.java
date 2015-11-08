@@ -1,11 +1,13 @@
 package me.zsj.smile.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,7 +57,6 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.item_smile, parent, false));
-
         return holder;
     }
 
@@ -64,8 +65,8 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
 
         Smile smile = mDatas.get(position);
         holder.smile = smile;
-        holder.tv_smile.setText(mDatas.get(position).getTitle());
-        holder.tv_content.setText(new SpannableString(mDatas.get(position).getSmileContent()));
+        holder.tv_smile.setText(mDatas.get(position).title);
+        holder.tv_content.setText(new SpannableString(mDatas.get(position).smileContent));
 
     }
 
@@ -79,13 +80,14 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
 
         @Bind(R.id.tv_smile) TextView tv_smile;
         @Bind(R.id.tv_content) TextView tv_content;
-        @Bind(R.id.smile_item) LinearLayout linearLayout;
+        @Bind(R.id.smile_item)
+        FrameLayout layout;
         Smile smile;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            linearLayout.setOnClickListener(this);
+            layout.setOnClickListener(this);
         }
 
         @Override

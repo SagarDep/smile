@@ -1,35 +1,14 @@
 package me.zsj.smile.model;
 
-import org.litepal.crud.DataSupport;
+import com.litesuits.orm.db.annotation.Column;
+import com.litesuits.orm.db.annotation.Table;
 
-public class Smile extends DataSupport{
+@Table("smile")
+public class Smile extends BaseModel{
 
-	private String smileContent;
-	private String title;
-	private String titleUrl;
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getTitleUrl() {
-		return titleUrl;
-	}
-
-	public void setTitleUrl(String titleUrl) {
-		this.titleUrl = titleUrl;
-	}
-
-	public String getSmileContent() {
-		return smileContent;
-	}
-	public void setSmileContent(String smileContent) {
-		this.smileContent = smileContent;
-	}
+	@Column("smileContent") public String smileContent;
+	@Column("title") public String title;
+	@Column("titleUrl") public String titleUrl;
 
 	@Override
 	public String toString() {
