@@ -97,37 +97,28 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     }
 
     private void loadBeautifulGril() {
-        Subscription s = Observable.just("smile")
-                .map(new Func1<String, Object>() {
+        int page = (int) (Math.random() * 5);
+        Subscription s = new DataRetrofit().getService().getMeizhi(page)
+                .map(new Func1<MeizhiData, String>() {
                     @Override
-                    public Object call(String s) {
-                        getMeizhi();
-                        return s;
+                    public String call(MeizhiData meizhiData) {
+                        int meizhi = (int) (Math.random() * 10);
+                        return meizhiData.results.get(meizhi).url;
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Object>() {
+                .subscribe(new Action1<String>() {
                     @Override
-                    public void call(Object o) {
+                    public void call(String url) {
                         mSmileJoke.setTextColor(Color.TRANSPARENT);
                         mSmileJoke.setText(mSmileContent);
-                        int meizhi = (int) (Math.random() * 10);
-                        String imageUrl = mGankMeizhiList.get(meizhi).url;
                         Picasso.with(MeizhiAndSmileActivity.this)
-                                .load(imageUrl)
+                                .load(url)
                                 .into(mMeizhiView);
                     }
                 });
         addSubscription(s);
-    }
-
-    private void getMeizhi() {
-        int page = (int) (Math.random() * 5);
-        MeizhiData meizhiData = new DataRetrofit().getService().getMeizhi(page);
-        if (!meizhiData.error) {
-            mGankMeizhiList.addAll(meizhiData.results);
-        }
     }
 
 

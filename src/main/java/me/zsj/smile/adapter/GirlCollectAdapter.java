@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
@@ -16,7 +15,6 @@ import butterknife.ButterKnife;
 import me.zsj.smile.R;
 import me.zsj.smile.event.OnMeizhiItemTouchListener;
 import me.zsj.smile.model.GirlCollect;
-import me.zsj.smile.model.Meizhi;
 import me.zsj.smile.widget.MeizhiImageView;
 
 /**
@@ -37,18 +35,6 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
         this.mLoveCollect = collectList;
     }
 
-    public void addAll(List<GirlCollect> datas) {
-        mLoveCollect.addAll(datas);
-    }
-
-    public void setDatas(List<GirlCollect> datas) {
-        mLoveCollect.clear();
-        mLoveCollect.addAll(datas);
-    }
-
-    public List<GirlCollect> getDatas() {
-        return mLoveCollect;
-    }
 
     @Override
     public GirlCollectHolder onCreateViewHolder(ViewGroup parent, int viewType) {

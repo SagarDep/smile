@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -37,19 +36,6 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
     public MeizhiListAdapter(Context context, List<Meizhi> meizhiList) {
         this.mContext = context;
         this.mMeizhiList = meizhiList;
-    }
-
-    public void addAll(List<Meizhi> datas) {
-        mMeizhiList.addAll(datas);
-    }
-
-    public void setDatas(List<Meizhi> datas) {
-        mMeizhiList.clear();
-        mMeizhiList.addAll(datas);
-    }
-
-    public List<Meizhi> getDatas() {
-        return mMeizhiList;
     }
 
     @Override

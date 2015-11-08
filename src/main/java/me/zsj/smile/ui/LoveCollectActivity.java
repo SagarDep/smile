@@ -82,7 +82,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 boolean isButtom = layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1]
-                        >= mCollectAdapter.getDatas().size() - 4;
+                        >= mGirlCollectList.size() - 4;
                 if (!mRefreshLayout.isRefreshing() && isButtom) {
                     mStart += 10;
                     setRefreshing(true);
@@ -90,7 +90,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
                         setRefreshing(false);
                         return;
                     }
-                    fetchData();
+                    fetchData(false);
                 }
             }
         });
@@ -102,9 +102,9 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(LoveCollectActivity.this, MeizhiActivity.class);
                 intent.putExtra(MeizhiListActivity.MEIZHI_URL,
-                        mCollectAdapter.getDatas().get(position).girlUrl);
+                        mGirlCollectList.get(position).girlUrl);
                 intent.putExtra(MeizhiListActivity.MEIZHI_DATE,
-                        mCollectAdapter.getDatas().get(position).girlDate);
+                        mGirlCollectList.get(position).girlDate);
                 ActivityOptionsCompat optionsCompat =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(LoveCollectActivity.this,
                                 view, MeizhiActivity.TRANSIT_PIC);
@@ -128,10 +128,10 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
     private void refresh() {
         mStart = 1;
         setRefreshing(true);
-        fetchData();
+        fetchData(true);
     }
 
-    private void fetchData() {
+    private void fetchData(final boolean clean) {
         Subscription s = Observable.just(mStart)
                 .map(new Func1<Integer, List<GirlCollect>>() {
                     @Override
@@ -145,22 +145,14 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
                 .subscribe(new Action1<List<GirlCollect>>() {
                     @Override
                     public void call(List<GirlCollect> collectList) {
-                        mGirlCollectList = collectList;
-                        notifyDataSetChanged(collectList);
+                        if (clean) mGirlCollectList.clear();
+                        mGirlCollectList.addAll(collectList);
+                        mCollectAdapter.notifyDataSetChanged();
+                        setRefreshing(false);
                     }
                 });
         addSubscription(s);
-    }
 
-
-    private void notifyDataSetChanged(List<GirlCollect> collectList) {
-        if (mStart >= 10) {
-            mCollectAdapter.addAll(collectList);
-        } else {
-            mCollectAdapter.setDatas(collectList);
-        }
-        mCollectAdapter.notifyDataSetChanged();
-        setRefreshing(false);
     }
 
     @Override
@@ -175,7 +167,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
         //当在MeizhiActivity中取消收藏妹纸时，回到收藏界面应当重新刷新数据
         if (!mIsFirstTimeComeIn) {
             mStart = 1;
-            fetchData();
+            fetchData(true);
         }
         mIsFirstTimeComeIn = false;
     }
