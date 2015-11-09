@@ -118,6 +118,7 @@ public class PullBackLayout extends FrameLayout{
         try {
             return mDragHelper.shouldInterceptTouchEvent(ev);
         }catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

@@ -2,6 +2,7 @@ package me.zsj.smile.model;
 
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.PrimaryKey;
+import com.litesuits.orm.db.enums.AssignType;
 
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
  */
 public class BaseModel implements Serializable{
 
-    @PrimaryKey(PrimaryKey.AssignType.AUTO_INCREMENT)
+    @PrimaryKey(AssignType.AUTO_INCREMENT)
     @Column("_id")
     public int id;
 }

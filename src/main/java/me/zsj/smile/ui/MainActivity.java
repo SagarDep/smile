@@ -123,7 +123,7 @@ public class MainActivity extends SwipeRefreshActivity {
         super.requestDataRefresh();
 
         mIndex = 1;
-        getSmileData(LOAD_REFRESH);
+        fetchSmileData(LOAD_REFRESH);
     }
 
     private void setRefresh(boolean refreshing) {
@@ -133,10 +133,10 @@ public class MainActivity extends SwipeRefreshActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        new Handler().postDelayed(new Runnable() {
+        mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                getSmileData(LOAD_REFRESH);
+                fetchSmileData(LOAD_REFRESH);
             }
         }, 350);
 
@@ -164,7 +164,7 @@ public class MainActivity extends SwipeRefreshActivity {
                 if (!mRefreshLayout.isRefreshing() && isButtom) {
                     mIndex++;
                     if (mIndex <= 50) {
-                        getSmileData(LOAD_MORE);
+                        fetchSmileData(LOAD_MORE);
                     } else {
                         SnackUtils.show(mRecyclerView, R.string.last_detail);
                     }
@@ -190,12 +190,12 @@ public class MainActivity extends SwipeRefreshActivity {
         });
     }
 
-    private void getSmileData(int index) {
+    private void fetchSmileData(int index) {
         setRefresh(true);
         Subscription s = Observable.just(index)
-                .map(new Func1<Integer, Object>() {
+                .map(new Func1<Integer, Integer>() {
                     @Override
-                    public Object call(Integer integer) {
+                    public Integer call(Integer integer) {
                         int success = 1;
                         if (integer == LOAD_REFRESH) {
                             getRefreshDatas();
@@ -207,10 +207,10 @@ public class MainActivity extends SwipeRefreshActivity {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Object>() {
+                .subscribe(new Action1<Integer>() {
                     @Override
-                    public void call(Object o) {
-                        if ((Integer) o == 1) {
+                    public void call(Integer integer) {
+                        if (integer == 1) {
                             mSmileListAdapter.notifyDataSetChanged();
                             setRefresh(false);
                         }
@@ -275,7 +275,7 @@ public class MainActivity extends SwipeRefreshActivity {
         if (mSmileListAdapter.getItemCount() / 10 <= 3) {
             mRecyclerView.smoothScrollToPosition(0);
         }
-        getSmileData(LOAD_REFRESH);
+        fetchSmileData(LOAD_REFRESH);
     }
 
     @Override

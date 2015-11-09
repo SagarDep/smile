@@ -2,7 +2,6 @@ package me.zsj.smile.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -41,11 +40,10 @@ import rx.schedulers.Schedulers;
 public class MeizhiListActivity extends SwipeRefreshActivity {
 
     private int mPage = 1;
-    private static final int PRELOAD_SIZE = 6;
     public static final String MEIZHI_URL = "MEIZHI_URL";
     public static final String MEIZHI_DATE = "MEIZHI_DATE";
-    public static final String VEDIO_URL = "VEDIO_URL";
-    public static final String VEDIO_DESC = "VEDIO_DESC";
+    public static final String VIDEO_URL = "VIDEO_URL";
+    public static final String VIDEO_DESC = "VIDEO_DESC";
 
 
     @Bind(R.id.recyclerview)
@@ -89,8 +87,8 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                 } else if (view.getId() == R.id.meizhi_desc_item) {
                     if (getVedioDataCount() > position) {
                         Intent intent = new Intent(MeizhiListActivity.this, VedioActivity.class);
-                        intent.putExtra(VEDIO_URL, mGankLists.get(position).url);
-                        intent.putExtra(VEDIO_DESC, mGankLists.get(position).desc);
+                        intent.putExtra(VIDEO_URL, mGankLists.get(position).url);
+                        intent.putExtra(VIDEO_DESC, mGankLists.get(position).desc);
                         startActivity(intent);
                     } else {
                         SnackUtils.show(mRecyclerView, "没有视频啦啦啦!!!");
@@ -126,13 +124,13 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (NetUtils.checkNet(MeizhiListActivity.this)) {
-            new Handler().postDelayed(new Runnable() {
+            mRecyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    setRefresh(true);
-                    getMeizhiData(true);
+                    setRefreshing(true);
                 }
-            }, 350);
+            }, 500);
+            fetchMeizhiData(true);
         }
 
     }
@@ -153,12 +151,12 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                 super.onScrolled(recyclerView, dx, dy);
 
                 boolean isButtom = layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1]
-                        >= mMeizhiListAdapter.getItemCount() - PRELOAD_SIZE;
+                        >= mMeizhiLists.size() - 4;
                 if (!mRefreshLayout.isRefreshing() && isButtom) {
                     if (!mIsFirstTouch) {
-                        setRefresh(true);
+                        setRefreshing(true);
                         mPage += 1;
-                        getMeizhiData(false);
+                        fetchMeizhiData(false);
                     } else {
                         mIsFirstTouch = false;
                     }
@@ -168,16 +166,13 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
         });
     }
 
-    private void setRefresh(boolean refreshing) {
-        setRefreshing(refreshing);
-    }
 
-    private void getMeizhiData(final boolean clean) {
+    private void fetchMeizhiData(final boolean clean) {
         Subscription s = Observable.zip(sData.getMeizhi(mPage), sData.getRestVedioData(mPage),
                 new Func2<MeizhiData, RestVideoData, List<Meizhi>>() {
                     @Override
                     public List<Meizhi> call(MeizhiData meizhiData, RestVideoData restVideoData) {
-                        createMeizhiDataWithVedioData(meizhiData, restVideoData);
+                        meizhiData = createMeizhiDataWithVedioData(meizhiData, restVideoData);
                         if (clean) saveVedioData(restVideoData.results);
                         else addAllVedioData(restVideoData.results);
 
@@ -198,10 +193,11 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                         if (clean) mMeizhiLists.clear();
                         mMeizhiLists.addAll(meizhiList);
                         mMeizhiListAdapter.notifyDataSetChanged();
-                        setRefresh(false);
+                        setRefreshing(false);
                     }
                 });
         addSubscription(s);
+
     }
 
     private MeizhiData createMeizhiDataWithVedioData(MeizhiData meizhiData, RestVideoData restVideoData) {
@@ -231,15 +227,15 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
         super.requestDataRefresh();
 
         mPage = 1;
-        setRefresh(true);
-        getMeizhiData(true);
+        setRefreshing(true);
+        fetchMeizhiData(true);
     }
 
     @OnClick(R.id.fab)
     public void onRefresh(View view) {
         mPage = 1;
-        setRefresh(true);
-        getMeizhiData(true);
+        setRefreshing(true);
+        fetchMeizhiData(true);
     }
 
 

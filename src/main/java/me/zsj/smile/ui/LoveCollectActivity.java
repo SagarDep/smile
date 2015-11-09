@@ -36,9 +36,9 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
     private GirlCollectAdapter mCollectAdapter;
 
     List<GirlCollect> mGirlCollectList = new ArrayList<>();
-    QueryBuilder queryBuilder = new QueryBuilder(GirlCollect.class);
+    //QueryBuilder queryBuilder = new QueryBuilder(GirlCollect.class);
+    //private int mStart = 1;
 
-    private int mStart = 1;
     private boolean mIsFirstTimeComeIn = true;
 
 
@@ -77,14 +77,14 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
         mCollectRecyclerView.setLayoutManager(layoutManager);
         mCollectRecyclerView.setAdapter(mCollectAdapter);
 
-        mCollectRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        /*mCollectRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 boolean isButtom = layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1]
                         >= mGirlCollectList.size() - 4;
                 if (!mRefreshLayout.isRefreshing() && isButtom) {
-                    mStart += 10;
+                    mStart += 50;
                     setRefreshing(true);
                     if (mGirlCollectList.size() == 0) {
                         setRefreshing(false);
@@ -93,7 +93,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
                     fetchData(false);
                 }
             }
-        });
+        });*/
     }
 
     private void onMeizhiTouch() {
@@ -120,24 +120,24 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
         mCollectRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                refresh();
+                setRefreshing(true);
             }
         }, 350);
+        fetchData(true);
     }
 
     private void refresh() {
-        mStart = 1;
-        setRefreshing(true);
+      //  mStart = 1;
         fetchData(true);
     }
 
     private void fetchData(final boolean clean) {
-        Subscription s = Observable.just(mStart)
-                .map(new Func1<Integer, List<GirlCollect>>() {
+        //queryBuilder.limit(mStart, 50).orderBy("_id desc");
+        Subscription s = Observable.just(MyApp.mLiteOrm.<GirlCollect>query(GirlCollect.class))
+                .map(new Func1<ArrayList<GirlCollect>, List<GirlCollect>>() {
                     @Override
-                    public List<GirlCollect> call(Integer integer) {
-                        queryBuilder.limit(integer, 10).orderBy("_id desc");
-                        return MyApp.mLiteOrm.query(queryBuilder);
+                    public List<GirlCollect> call(ArrayList<GirlCollect> girlCollects) {
+                        return girlCollects;
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -152,12 +152,12 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
                     }
                 });
         addSubscription(s);
-
     }
 
     @Override
     public void requestDataRefresh() {
         super.requestDataRefresh();
+        setRefreshing(true);
         refresh();
     }
 
@@ -166,7 +166,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
         super.onResume();
         //当在MeizhiActivity中取消收藏妹纸时，回到收藏界面应当重新刷新数据
         if (!mIsFirstTimeComeIn) {
-            mStart = 1;
+           // mStart = 1;
             fetchData(true);
         }
         mIsFirstTimeComeIn = false;

@@ -124,7 +124,7 @@ public class MeizhiActivity extends AppCompatActivity {
         //Toast.makeText(this, "功能还在开发当中", Toast.LENGTH_LONG).show();
         if (mIsGirlCollected) {
             MyApp.mLiteOrm.delete(GirlCollect.class,
-                    WhereBuilder.create().equals("girlDate", mMeizhiDate));
+                    WhereBuilder.create(GirlCollect.class).equals("girlDate", mMeizhiDate));
             mIsGirlCollected = false;
             mFavFAB.setImageResource(R.mipmap.ab_fav_normal);
             toast("取消收藏妹纸...");

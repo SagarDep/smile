@@ -11,10 +11,10 @@ import rx.Observable;
  */
 public interface Data {
 
-    @GET("/data/福利/10/{page}")
+    @GET("/data/福利/30/{page}")
     Observable<MeizhiData> getMeizhi(@Path("page")int page);
 
-    @GET("/data/休息视频/" + 10 + "/{page}")
+    @GET("/data/休息视频/" + 30 + "/{page}")
     Observable<RestVideoData> getRestVedioData(@Path("page") int page);
 
 }

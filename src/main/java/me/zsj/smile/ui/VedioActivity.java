@@ -26,8 +26,8 @@ public class VedioActivity extends ToolbarActivity{
     @Bind(R.id.progressbar) NumberProgressBar mProgressBar;
     @Bind(R.id.vedio_web) WebView mWebView;
 
-    public static final String VEDIO_URL = "VEDIO_URL";
-    public static final String VEDIO_DESC = "VEDIO_DESC";
+    public static final String VIDEO_URL = "VIDEO_URL";
+    public static final String VIDEO_DESC = "VIDEO_DESC";
     private String mVedioUrl;
     private String mVedioTitle;
 
@@ -69,8 +69,8 @@ public class VedioActivity extends ToolbarActivity{
     }
 
     private void parserIntent() {
-        mVedioUrl = getIntent().getExtras().getString(VEDIO_URL);
-        mVedioTitle = getIntent().getExtras().getString(VEDIO_DESC);
+        mVedioUrl = getIntent().getExtras().getString(VIDEO_URL);
+        mVedioTitle = getIntent().getExtras().getString(VIDEO_DESC);
     }
 
     @Override

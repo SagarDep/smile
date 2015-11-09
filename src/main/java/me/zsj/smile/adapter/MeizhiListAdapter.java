@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
     private Context mContext;
     private List<Meizhi> mMeizhiList;
     private OnMeizhiItemTouchListener onMeizhiItemTouchListener;
-
 
     public void setOnMeizhiItemTouchListener(OnMeizhiItemTouchListener onMeizhiItemTouchListener) {
         this.onMeizhiItemTouchListener = onMeizhiItemTouchListener;
@@ -53,14 +53,12 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.Me
         int limit = 48;
         String desc = meizhi.desc.length() > limit ? meizhi.desc.substring(0, limit) + "..." :
                 meizhi.desc;
-        if (desc != null) {
-            holder.desc_text.setText(desc);
-        }
+        holder.desc_text.setText(desc);
         holder.imageView.setOriginalSize(50, 50);
+        Glide.clear(holder.imageView);
         Glide.with(mContext)
                 .load(meizhi.url)
-                .centerCrop()
-                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.imageView);
 
         holder.position = position;

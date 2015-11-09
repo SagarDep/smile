@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
                     public void call(String url) {
                         mSmileJoke.setTextColor(Color.TRANSPARENT);
                         mSmileJoke.setText(mSmileContent);
-                        Picasso.with(MeizhiAndSmileActivity.this)
+                        Glide.with(MeizhiAndSmileActivity.this)
                                 .load(url)
                                 .into(mMeizhiView);
                     }
