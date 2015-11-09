@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
     private Context mContext;
     private List<GirlCollect> mLoveCollect;
     private OnMeizhiItemTouchListener onMeizhiItemTouchListener;
+    private RequestManager requestManager;
 
     public void setOnMeizhiItemTouchListener(OnMeizhiItemTouchListener onMeizhiItemTouchListener) {
         this.onMeizhiItemTouchListener = onMeizhiItemTouchListener;
@@ -33,6 +35,7 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
     public GirlCollectAdapter(Context context, List<GirlCollect> collectList) {
         this.mContext = context;
         this.mLoveCollect = collectList;
+        this.requestManager = Glide.with(context);
     }
 
 
@@ -47,8 +50,7 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
     public void onBindViewHolder(GirlCollectHolder holder, int position) {
 
         holder.imageView.setOriginalSize(50, 53);
-        Glide.with(mContext)
-                .load(mLoveCollect.get(position).girlUrl)
+        requestManager.load(mLoveCollect.get(position).girlUrl)
                 .centerCrop()
                 .into(holder.imageView);
         holder.position = position;
