@@ -39,7 +39,7 @@ public class PullBackLayout extends FrameLayout{
 
         mDragHelper = ViewDragHelper.create(this, 1f / 8f, new DragCallBack());
         mReleasedHeight = ScreenUtils.getHeight(context) / 6;
-        mBackgroud = new ColorDrawable(Color.parseColor("#212121"));
+        mBackgroud = new ColorDrawable(Color.BLACK);
 
     }
 

@@ -13,6 +13,8 @@ import android.view.Gravity;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
+import me.zsj.smile.R;
+
 
 /**
  * Created by zsj on 2015/10/24 0024.
@@ -41,7 +43,7 @@ public class RevealLayout extends LinearLayout {
 
         mRevealPaint = new Paint();
         mRevealPaint.setAntiAlias(true);
-        mRevealPaint.setColor(Color.parseColor("#166678"));
+        mRevealPaint.setColor(getResources().getColor(R.color.reveal_color));
 
         setWillNotDraw(false);
 

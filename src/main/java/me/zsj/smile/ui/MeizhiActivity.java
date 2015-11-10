@@ -3,15 +3,15 @@ package me.zsj.smile.ui;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -59,6 +59,8 @@ public class MeizhiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meizhi_view);
         ButterKnife.bind(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().setStatusBarColor(Color.BLACK);
 
         mMeizhiUrl = getIntent().getExtras().getString(MeizhiListActivity.MEIZHI_URL);
         mMeizhiDate = getIntent().getExtras().getString(MeizhiListActivity.MEIZHI_DATE);

@@ -81,7 +81,7 @@ public class SmileListAdapter extends RecyclerView.Adapter<SmileListAdapter.MyVi
         @Bind(R.id.tv_smile) TextView tv_smile;
         @Bind(R.id.tv_content) TextView tv_content;
         @Bind(R.id.smile_item)
-        FrameLayout layout;
+        LinearLayout layout;
         Smile smile;
 
         public MyViewHolder(View itemView) {

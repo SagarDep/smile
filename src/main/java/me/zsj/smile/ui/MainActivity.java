@@ -1,8 +1,8 @@
 package me.zsj.smile.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +14,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.litesuits.orm.db.assit.QueryBuilder;
 
@@ -72,7 +71,6 @@ public class MainActivity extends SwipeRefreshActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mSmileDatas = new ArrayList<>();
         ActionBar ab = getSupportActionBar();
         if (ab != null) {

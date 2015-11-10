@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorPrimary">#DDDB6A</color>
+    <color name="colorPrimaryDark">#51AF5B</color>
+    <color name="colorAccent">#DDDB6A</color>
+    <color name="titleTextColor">#5D4037</color>
+
     <color name="window_background">#FFF5F5F5</color>
 
     <color name="refresh_progress_1">#e91e63</color>
@@ -19,5 +24,8 @@
     <color name="desc_item_press">@android:color/transparent</color>
 
     <color name="nav_backgroud">#ffffff</color>
+
+    <color name="compat_backgroud">#212121</color>
+    <color name="reveal_color">#51AF5B</color>
 
 </resources>

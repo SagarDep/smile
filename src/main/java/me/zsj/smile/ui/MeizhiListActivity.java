@@ -85,7 +85,7 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                 if (view.getId() == R.id.meizhi_imageview) {
                     startToMeizhiActivity(view, position);
                 } else if (view.getId() == R.id.meizhi_desc_item) {
-                    if (getVedioDataCount() > position) {
+                    if (getVideoDataCount() > position) {
                         Intent intent = new Intent(MeizhiListActivity.this, VedioActivity.class);
                         intent.putExtra(VIDEO_URL, mGankLists.get(position).url);
                         intent.putExtra(VIDEO_DESC, mGankLists.get(position).desc);
@@ -168,13 +168,13 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
 
 
     private void fetchMeizhiData(final boolean clean) {
-        Subscription s = Observable.zip(sData.getMeizhi(mPage), sData.getRestVedioData(mPage),
+        Subscription s = Observable.zip(sData.getMeizhi(mPage), sData.getRestVideoData(mPage),
                 new Func2<MeizhiData, RestVideoData, List<Meizhi>>() {
                     @Override
                     public List<Meizhi> call(MeizhiData meizhiData, RestVideoData restVideoData) {
                         meizhiData = createMeizhiDataWithVedioData(meizhiData, restVideoData);
-                        if (clean) saveVedioData(restVideoData.results);
-                        else addAllVedioData(restVideoData.results);
+                        if (clean) saveVideoData(restVideoData.results);
+                        else addAllVideoData(restVideoData.results);
 
                         return meizhiData.results;
                     }
@@ -209,16 +209,16 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
         return meizhiData;
     }
 
-    private void saveVedioData(List<Gank> vedioData) {
+    private void saveVideoData(List<Gank> videoData) {
         mGankLists.clear();
-        mGankLists.addAll(vedioData);
+        mGankLists.addAll(videoData);
     }
 
-    private void addAllVedioData(List<Gank> vedioData) {
-        mGankLists.addAll(vedioData);
+    private void addAllVideoData(List<Gank> videoData) {
+        mGankLists.addAll(videoData);
     }
 
-    private int getVedioDataCount() {
+    private int getVideoDataCount() {
         return mGankLists.size();
     }
 

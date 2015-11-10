@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +30,6 @@ import me.zsj.smile.widget.RevealLayout;
 import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.ScreenUtils;
 import me.zsj.smile.utils.SnackUtils;
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -55,9 +52,13 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     private List<Meizhi> mGankMeizhiList;
     private AnimatorSet set = new AnimatorSet();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().setStatusBarColor(Color.BLACK);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAppBar.setBackgroundColor(Color.TRANSPARENT);
@@ -72,6 +73,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
         mSmileContent = getIntent().getExtras().getString(SMILE_DESCRIPTION);
         mGankMeizhiList = new ArrayList<>();
     }
+
 
     @Override
     protected int getLayoutId() {
@@ -99,7 +101,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
 
     private void loadBeautifulGril() {
         int page = (int) (Math.random() * 5);
-        Subscription s = new DataRetrofit().getService().getMeizhi(page)
+        Subscription s = new DataRetrofit().getService().fetchRandomMeizhi(page)
                 .map(new Func1<MeizhiData, String>() {
                     @Override
                     public String call(MeizhiData meizhiData) {

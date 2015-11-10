@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import com.litesuits.orm.db.assit.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

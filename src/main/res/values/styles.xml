@@ -5,15 +5,14 @@
         <item name="colorPrimaryDark">#0E2E3B</item>
     -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#DDDB6A</item>
-        <item name="colorPrimaryDark">#51AF5B</item>
-        <item name="colorAccent">#DDDB6A</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/LightToolbar</item>
     </style>
 
-
     <style name="LightToolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="titleTextColor">#5D4037</item>
+        <item name="titleTextColor">@color/titleTextColor</item>
     </style>
 
 

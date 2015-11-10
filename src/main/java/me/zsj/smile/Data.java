@@ -15,6 +15,9 @@ public interface Data {
     Observable<MeizhiData> getMeizhi(@Path("page")int page);
 
     @GET("/data/休息视频/" + 30 + "/{page}")
-    Observable<RestVideoData> getRestVedioData(@Path("page") int page);
+    Observable<RestVideoData> getRestVideoData(@Path("page") int page);
+
+    @GET("/data/福利/10/{page}")
+    Observable<MeizhiData> fetchRandomMeizhi(@Path("page")int page);
 
 }
