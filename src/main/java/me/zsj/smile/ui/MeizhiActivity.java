@@ -16,9 +16,9 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
+import com.squareup.picasso.Picasso;
 
 
 import butterknife.Bind;
@@ -44,7 +44,6 @@ public class MeizhiActivity extends AppCompatActivity {
     @Bind(R.id.fav) FloatingActionButton mFavFAB;
     @Bind(R.id.share) FloatingActionButton mShareFAB;
     PhotoViewAttacher mViewAttacher;
-
     private String mMeizhiUrl;
     private String mMeizhiDate;
     public static final String TRANSIT_PIC = "picture";
@@ -66,7 +65,7 @@ public class MeizhiActivity extends AppCompatActivity {
         mMeizhiDate = getIntent().getExtras().getString(MeizhiListActivity.MEIZHI_DATE);
 
         ViewCompat.setTransitionName(mImageView, TRANSIT_PIC);
-        Glide.with(this).load(mMeizhiUrl).into(mImageView);
+        Picasso.with(this).load(mMeizhiUrl).into(mImageView);
         
         mViewAttacher = new PhotoViewAttacher(mImageView);
         mPullBackLayout.setPullCallBack(new PullBackLayout.PullCallBack() {

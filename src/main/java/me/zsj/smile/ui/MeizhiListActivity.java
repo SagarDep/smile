@@ -1,5 +1,6 @@
 package me.zsj.smile.ui;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,9 +85,18 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     private void itemClick() {
         mMeizhiListAdapter.setOnMeizhiItemTouchListener(new OnMeizhiItemTouchListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(final View view, final int position) {
                 if (view.getId() == R.id.meizhi_imageview) {
-                    startToMeizhiActivity(view, position);
+                    Picasso.with(MeizhiListActivity.this).load(mMeizhiLists.get(position).url).fetch(new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            startToMeizhiActivity(view, position);
+                        }
+
+                        @Override
+                        public void onError() {}
+                    });
+
                 } else if (view.getId() == R.id.meizhi_desc_item) {
                     if (getVideoDataCount() > position) {
                         Intent intent = new Intent(MeizhiListActivity.this, VedioActivity.class);
@@ -100,14 +113,14 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     }
 
     private void startToMeizhiActivity(View view, int position) {
-        Intent intent = new Intent(MeizhiListActivity.this, MeizhiActivity.class);
+        Intent intent = new Intent(this, MeizhiActivity.class);
         intent.putExtra(MEIZHI_URL, mMeizhiLists.get(position).url);
         intent.putExtra(MEIZHI_DATE,
                 mMeizhiLists.get(position).publishedAt.substring(0, 10));
         ActivityOptionsCompat optionsCompat =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(MeizhiListActivity.this,
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
                         view, MeizhiActivity.TRANSIT_PIC);
-        ActivityCompat.startActivity(MeizhiListActivity.this, intent, optionsCompat.toBundle());
+        ActivityCompat.startActivity(this, intent, optionsCompat.toBundle());
     }
 
     private void setNavigationListener() {

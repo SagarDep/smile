@@ -1,6 +1,9 @@
 package me.zsj.smile.ui;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -8,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,18 +104,30 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
     private void onMeizhiTouch() {
         mCollectAdapter.setOnMeizhiItemTouchListener(new OnMeizhiItemTouchListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(LoveCollectActivity.this, MeizhiActivity.class);
-                intent.putExtra(MeizhiListActivity.MEIZHI_URL,
-                        mGirlCollectList.get(position).girlUrl);
-                intent.putExtra(MeizhiListActivity.MEIZHI_DATE,
-                        mGirlCollectList.get(position).girlDate);
-                ActivityOptionsCompat optionsCompat =
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(LoveCollectActivity.this,
-                                view, MeizhiActivity.TRANSIT_PIC);
-                ActivityCompat.startActivity(LoveCollectActivity.this, intent, optionsCompat.toBundle());
+            public void onItemClick(final View view, final int position) {
+                Picasso.with(LoveCollectActivity.this).load(mGirlCollectList.get(position).girlUrl)
+                        .fetch(new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                startToMeizhiActivity(view, position);
+                            }
+                            @Override
+                            public void onError() {}
+                        });
             }
         });
+    }
+
+    private void startToMeizhiActivity(View view, int position) {
+        Intent intent = new Intent(LoveCollectActivity.this, MeizhiActivity.class);
+        intent.putExtra(MeizhiListActivity.MEIZHI_URL,
+                mGirlCollectList.get(position).girlUrl);
+        intent.putExtra(MeizhiListActivity.MEIZHI_DATE,
+                mGirlCollectList.get(position).girlDate);
+        ActivityOptionsCompat optionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                        view, MeizhiActivity.TRANSIT_PIC);
+        ActivityCompat.startActivity(LoveCollectActivity.this, intent, optionsCompat.toBundle());
     }
 
     @Override
