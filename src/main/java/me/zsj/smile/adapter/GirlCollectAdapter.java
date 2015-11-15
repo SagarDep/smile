@@ -2,6 +2,7 @@ package me.zsj.smile.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,12 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
     @Override
     public void onBindViewHolder(GirlCollectHolder holder, int position) {
 
-        holder.imageView.setOriginalSize(50, 53);
-        requestManager.load(mLoveCollect.get(position).girlUrl)
-                .centerCrop()
+        GirlCollect girlCollect = mLoveCollect.get(position);
+        int width = girlCollect.width;
+        int height = girlCollect.height;
+        holder.imageView.setOriginalSize(width == 0 ? 50 : width,
+                height == 0 ? 53 : height);
+        requestManager.load(girlCollect.girlUrl)
                 .into(holder.imageView);
         holder.position = position;
     }
@@ -63,7 +67,8 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        GirlCollect girlCollect = mLoveCollect.get(position);
+        return Math.round((float) girlCollect.width / (float) girlCollect.height * 10f);
     }
 
 

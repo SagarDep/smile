@@ -184,6 +184,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
         //当在MeizhiActivity中取消收藏妹纸时，回到收藏界面应当重新刷新数据
         if (!mIsFirstTimeComeIn) {
            // mStart = 1;
+            setRefreshing(true);
             fetchData(true);
         }
         mIsFirstTimeComeIn = false;
