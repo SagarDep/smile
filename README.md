@@ -6,13 +6,13 @@
    * Jsoup: 通过Jsoup 解析Html 拿到笑话数据
    * OkHttp:OkHttp和 Retrofit 配合使用获取干货网妹纸 url
    * Android Design Support Library库的简单使用
-   * litepal 数据库存取操作
+   * lite orm 数据库存取操作
    * RecyclerView 的使用
    * Glide 库加载图片
    * 加入了优雅的 Activity 之间转场动画
    * Butterknife对View 注解绑定
    * 分享图片和文字
-   * RxAndroid 的使用
+   * RxJava 和 RxAndroid 的使用
 
 ###11.08更新
    * 加入收藏妹纸功能
