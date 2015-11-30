@@ -13,10 +13,8 @@ import me.zsj.smile.R;
  */
 public class AboutActivity extends ToolbarActivity {
 
-    @Bind(R.id.my_github)
-    TextView mGithubText;
-    @Bind(R.id.my_weibo)
-    TextView mWeiboText;
+    @Bind(R.id.my_github) TextView mGithubText;
+    @Bind(R.id.my_weibo) TextView mWeiboText;
 
     @Override
     protected int getLayoutId() {

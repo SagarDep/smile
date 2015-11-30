@@ -2,7 +2,6 @@ package me.zsj.smile.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +41,8 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
 
     @Override
     public GirlCollectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        GirlCollectHolder holder = new GirlCollectHolder(
-                LayoutInflater.from(mContext).inflate(R.layout.item_love, parent, false));
+        GirlCollectHolder holder = new GirlCollectHolder(LayoutInflater.from(mContext).inflate(R.layout.item_love,
+                parent, false));
         return holder;
     }
 

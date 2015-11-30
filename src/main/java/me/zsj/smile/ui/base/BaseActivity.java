@@ -1,6 +1,9 @@
-package me.zsj.smile.ui;
+package me.zsj.smile.ui.base;
 
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import me.zsj.smile.R;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -20,6 +23,12 @@ public class BaseActivity extends AppCompatActivity{
         mCompositeSubscription.add(s);
     }
 
+    public void handleError(Throwable throwable) {
+        throwable.printStackTrace();
+        Toast.makeText(this, getString(R.string.observable_error), Toast.LENGTH_LONG)
+                .show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -28,6 +37,5 @@ public class BaseActivity extends AppCompatActivity{
             mCompositeSubscription.unsubscribe();
         }
     }
-
 
 }

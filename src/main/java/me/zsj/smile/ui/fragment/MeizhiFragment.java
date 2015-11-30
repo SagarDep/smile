@@ -1,9 +1,8 @@
-package me.zsj.smile.ui;
-
+package me.zsj.smile.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +15,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.OnClick;
 import me.zsj.smile.Data;
 import me.zsj.smile.DataRetrofit;
 import me.zsj.smile.R;
@@ -27,8 +24,8 @@ import me.zsj.smile.data.RestVideoData;
 import me.zsj.smile.event.OnMeizhiItemTouchListener;
 import me.zsj.smile.model.Gank;
 import me.zsj.smile.model.Meizhi;
-import me.zsj.smile.utils.FABAnimation;
-import me.zsj.smile.utils.NetUtils;
+import me.zsj.smile.ui.MeizhiActivity;
+import me.zsj.smile.ui.VedioActivity;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
 import rx.Subscription;
@@ -39,9 +36,9 @@ import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by zsj on 2015/9/17 0017.
+ * Created by zsj on 2015/11/29 0029.
  */
-public class MeizhiListActivity extends SwipeRefreshActivity {
+public class MeizhiFragment extends SwipeRefreshFragment {
 
     private int mPage = 1;
     public static final String MEIZHI_URL = "MEIZHI_URL";
@@ -49,11 +46,6 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     public static final String VIDEO_URL = "VIDEO_URL";
     public static final String VIDEO_DESC = "VIDEO_DESC";
 
-
-    @Bind(R.id.recyclerview)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.fab)
-    FloatingActionButton FAB;
     private MeizhiListAdapter mMeizhiListAdapter;
 
 
@@ -64,22 +56,26 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     private Data sData;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_meizhi_list;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         if (sData == null) {
             sData = new DataRetrofit().getService();
         }
         setRecyclerView();
-        setNavigationListener();
         itemClick();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setRefreshing(true);
+            }
+        }, 358);
+        fetchMeizhiData(true);
     }
 
     private void itemClick() {
@@ -87,7 +83,7 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
             @Override
             public void onItemClick(final View view, final int position) {
                 if (view.getId() == R.id.meizhi_imageview) {
-                    Picasso.with(MeizhiListActivity.this).load(mMeizhiLists.get(position).url).fetch(new Callback() {
+                    Picasso.with(getActivity()).load(mMeizhiLists.get(position).url).fetch(new Callback() {
                         @Override
                         public void onSuccess() {
                             startToMeizhiActivity(view, position);
@@ -99,7 +95,7 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
 
                 } else if (view.getId() == R.id.meizhi_desc_item) {
                     if (getVideoDataCount() > position) {
-                        Intent intent = new Intent(MeizhiListActivity.this, VedioActivity.class);
+                        Intent intent = new Intent(getActivity(), VedioActivity.class);
                         intent.putExtra(VIDEO_URL, mGankLists.get(position).url);
                         intent.putExtra(VIDEO_DESC, mGankLists.get(position).desc);
                         startActivity(intent);
@@ -113,39 +109,14 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
     }
 
     private void startToMeizhiActivity(View view, int position) {
-        Intent intent = new Intent(this, MeizhiActivity.class);
+        Intent intent = new Intent(getActivity(), MeizhiActivity.class);
         intent.putExtra(MEIZHI_URL, mMeizhiLists.get(position).url);
         intent.putExtra(MEIZHI_DATE,
                 mMeizhiLists.get(position).publishedAt.substring(0, 10));
         ActivityOptionsCompat optionsCompat =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                         view, MeizhiActivity.TRANSIT_PIC);
-        ActivityCompat.startActivity(this, intent, optionsCompat.toBundle());
-    }
-
-    private void setNavigationListener() {
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MeizhiListActivity.this.onBackPressed();
-            }
-        });
-    }
-
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (NetUtils.checkNet(MeizhiListActivity.this)) {
-            mRecyclerView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setRefreshing(true);
-                }
-            }, 500);
-            fetchMeizhiData(true);
-        }
-
+        ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
     }
 
     private void setRecyclerView() {
@@ -154,7 +125,7 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mMeizhiListAdapter = new MeizhiListAdapter(this, mMeizhiLists);
+        mMeizhiListAdapter = new MeizhiListAdapter(getActivity(), mMeizhiLists);
         mRecyclerView.setAdapter(mMeizhiListAdapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -174,7 +145,6 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                         mIsFirstTouch = false;
                     }
                 }
-                FABAnimation.fabAnimation(FAB, dy);
             }
         });
     }
@@ -207,6 +177,11 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
                         mMeizhiLists.addAll(meizhiList);
                         mMeizhiListAdapter.notifyDataSetChanged();
                         setRefreshing(false);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        handleError(throwable);
                     }
                 });
         addSubscription(s);
@@ -243,13 +218,4 @@ public class MeizhiListActivity extends SwipeRefreshActivity {
         setRefreshing(true);
         fetchMeizhiData(true);
     }
-
-    @OnClick(R.id.fab)
-    public void onRefresh(View view) {
-        mPage = 1;
-        setRefreshing(true);
-        fetchMeizhiData(true);
-    }
-
-
 }

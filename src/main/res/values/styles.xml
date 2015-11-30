@@ -4,16 +4,20 @@
         <item name="colorPrimary">#166678</item>
         <item name="colorPrimaryDark">#0E2E3B</item>
     -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="toolbarStyle">@style/LightToolbar</item>
+        <!--<item name="toolbarStyle">@style/LightToolbar</item>-->
+    </style>
 
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="LightToolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="titleTextColor">@color/titleTextColor</item>
+        <!--<item name="titleTextColor">@color/titleTextColor</item>-->
     </style>
 
 

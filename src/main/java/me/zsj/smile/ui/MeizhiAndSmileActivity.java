@@ -120,6 +120,11 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
                                 .load(url)
                                 .into(mMeizhiView);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        handleError(throwable);
+                    }
                 });
         addSubscription(s);
     }

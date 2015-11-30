@@ -1,9 +1,7 @@
 package me.zsj.smile.ui;
 
-import android.annotation.TargetApi;
-import android.app.ActivityOptions;
+
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -24,6 +22,7 @@ import me.zsj.smile.R;
 import me.zsj.smile.adapter.GirlCollectAdapter;
 import me.zsj.smile.event.OnMeizhiItemTouchListener;
 import me.zsj.smile.model.GirlCollect;
+import me.zsj.smile.ui.fragment.MeizhiFragment;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,8 +42,6 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
     List<GirlCollect> mGirlCollectList = new ArrayList<>();
     //QueryBuilder queryBuilder = new QueryBuilder(GirlCollect.class);
     //private int mStart = 1;
-
-    private boolean mIsFirstTimeComeIn = true;
 
 
     @Override
@@ -120,9 +117,9 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
 
     private void startToMeizhiActivity(View view, int position) {
         Intent intent = new Intent(LoveCollectActivity.this, MeizhiActivity.class);
-        intent.putExtra(MeizhiListActivity.MEIZHI_URL,
+        intent.putExtra(MeizhiFragment.MEIZHI_URL,
                 mGirlCollectList.get(position).girlUrl);
-        intent.putExtra(MeizhiListActivity.MEIZHI_DATE,
+        intent.putExtra(MeizhiFragment.MEIZHI_DATE,
                 mGirlCollectList.get(position).girlDate);
         ActivityOptionsCompat optionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this,
@@ -178,7 +175,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
         refresh();
     }
 
-    @Override
+   /* @Override
     protected void onResume() {
         super.onResume();
         //当在MeizhiActivity中取消收藏妹纸时，回到收藏界面应当重新刷新数据
@@ -188,5 +185,5 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
             fetchData(true);
         }
         mIsFirstTimeComeIn = false;
-    }
+    }*/
 }

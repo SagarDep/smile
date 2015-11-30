@@ -32,13 +32,14 @@ import butterknife.OnClick;
 import me.zsj.smile.MyApp;
 import me.zsj.smile.R;
 import me.zsj.smile.model.GirlCollect;
+import me.zsj.smile.ui.fragment.MeizhiFragment;
 import me.zsj.smile.utils.RxMeizhi;
 import me.zsj.smile.widget.PullBackLayout;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -52,7 +53,9 @@ public class MeizhiActivity extends AppCompatActivity {
     @Bind(R.id.pullBackLayout) PullBackLayout mPullBackLayout;
     @Bind(R.id.fav) FloatingActionButton mFavFAB;
     @Bind(R.id.share) FloatingActionButton mShareFAB;
+
     private PhotoViewAttacher mViewAttacher;
+    private Subscription mSubscription;
 
 
     private String mMeizhiUrl;
@@ -72,12 +75,12 @@ public class MeizhiActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().setStatusBarColor(Color.BLACK);
 
-        mMeizhiUrl = getIntent().getExtras().getString(MeizhiListActivity.MEIZHI_URL);
-        mMeizhiDate = getIntent().getExtras().getString(MeizhiListActivity.MEIZHI_DATE);
+        mMeizhiUrl = getIntent().getExtras().getString(MeizhiFragment.MEIZHI_URL);
+        mMeizhiDate = getIntent().getExtras().getString(MeizhiFragment.MEIZHI_DATE);
 
         ViewCompat.setTransitionName(mImageView, TRANSIT_PIC);
         Picasso.with(this).load(mMeizhiUrl).into(mImageView);
-        
+
         mViewAttacher = new PhotoViewAttacher(mImageView);
         mPullBackLayout.setPullCallBack(new PullBackLayout.PullCallBack() {
             @Override
@@ -85,12 +88,12 @@ public class MeizhiActivity extends AppCompatActivity {
                 MeizhiActivity.this.onBackPressed();
             }
         });
-        
+
         imageTap();
         checkWhetherCollected();
 
     }
-    
+
     private void imageTap() {
         mViewAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
@@ -100,7 +103,7 @@ public class MeizhiActivity extends AppCompatActivity {
                     set.playTogether(ObjectAnimator.ofFloat(mFavFAB, "translationY", 0, yHeight),
                             ObjectAnimator.ofFloat(mShareFAB, "translationY", 0, yHeight));
                     mIsFabAppear = false;
-                }else {
+                } else {
                     set.playTogether(ObjectAnimator.ofFloat(mFavFAB, "translationY", yHeight, 0),
                             ObjectAnimator.ofFloat(mShareFAB, "translationY", yHeight, 0));
                     mIsFabAppear = true;
@@ -126,7 +129,7 @@ public class MeizhiActivity extends AppCompatActivity {
         if (nums == 1) {
             mFavFAB.setImageResource(R.mipmap.ab_fav_active);
             mIsGirlCollected = true;
-        }else {
+        } else {
             mIsGirlCollected = false;
         }
     }
@@ -139,38 +142,20 @@ public class MeizhiActivity extends AppCompatActivity {
             mIsGirlCollected = false;
             mFavFAB.setImageResource(R.mipmap.ab_fav_normal);
             toast("取消收藏妹纸...");
-        }else {
+        } else {
             saveMeizhi();
             mFavFAB.setImageResource(R.mipmap.ab_fav_active);
             mIsGirlCollected = true;
             toast("成功收藏妹纸...");
-        }
-    }
+        }   }
 
     private void toast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 
-
     private void saveMeizhi() {
         final GirlCollect girlCollect = new GirlCollect();
-        Observable.just(mMeizhiUrl)
-                .map(new Func1<String, Bitmap>() {
-                    @Override
-                    public Bitmap call(String s) {
-                        Bitmap bitmap = null;
-                        try {
-                            bitmap = Glide.with(MeizhiActivity.this).load(s).asBitmap()
-                                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                                    .get();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                        return bitmap;
-                    }
-                })
+        mSubscription = getBitmap(mMeizhiUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Bitmap>() {
@@ -182,7 +167,34 @@ public class MeizhiActivity extends AppCompatActivity {
                         girlCollect.height = bitmap.getHeight();
                         MyApp.mLiteOrm.save(girlCollect);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                        Toast.makeText(MeizhiActivity.this,
+                                throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 });
+    }
+
+    private Observable<Bitmap> getBitmap(final String meizhiUrl) {
+        return Observable.create(new Observable.OnSubscribe<Bitmap>() {
+            @Override
+            public void call(Subscriber<? super Bitmap> subscriber) {
+                try {
+                    Bitmap bitmap = Glide.with(MeizhiActivity.this).load(meizhiUrl).asBitmap()
+                            .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .get();
+                    subscriber.onNext(bitmap);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                }
+            }
+        });
     }
 
 
@@ -202,4 +214,12 @@ public class MeizhiActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ButterKnife.unbind(this);
+        if (mSubscription != null)
+            mSubscription.unsubscribe();
+    }
 }

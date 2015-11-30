@@ -4,14 +4,16 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zsj.smile.R;
+import me.zsj.smile.ui.base.BaseActivity;
 
 /**
  * Created by zsj on 2015/9/19 0019.
  */
-public abstract class ToolbarActivity extends BaseActivity{
+public abstract class ToolbarActivity extends BaseActivity {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.appbar) AppBarLayout mAppBar;
@@ -24,13 +26,15 @@ public abstract class ToolbarActivity extends BaseActivity{
 
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+
     }
 
     abstract protected int getLayoutId();
 
-    public void setBarAlpha(float alpha) {
-        mAppBar.setAlpha(alpha);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ButterKnife.unbind(this);
     }
-
-
 }

@@ -25,4 +25,11 @@
     <string name="nav_meizhi">妹纸</string>
     <string name="nav_collect">收藏</string>
 
+    <string name="observable_error">服务器出错了，数据不能获取!</string>
+
+    <string name="about">关于App</string>
+    <string name="love_collect_activity">收藏</string>
+
+
+
 </resources>
