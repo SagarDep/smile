@@ -6,13 +6,13 @@
    * Jsoup: 通过Jsoup 解析Html 拿到笑话数据
    * OkHttp:OkHttp和 Retrofit 配合使用获取干货网妹纸 url
    * Android Design Support Library库的简单使用
-   * litepal 数据库存取操作
+   * lite orm 数据库存取操作
    * RecyclerView 的使用
    * Glide 库加载图片
    * 加入了优雅的 Activity 之间转场动画
    * Butterknife对View 注解绑定
    * 分享图片和文字
-   * RxAndroid 的使用
+   * RxJava 和 RxAndroid 的使用
 
 ###11.08更新
    * 加入收藏妹纸功能
@@ -39,14 +39,16 @@
    
 
 <img src="/screenshots/Screenshot_2015-11-08-12-44-14-215.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-11-08-12-44-21-616.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-08-12-44-24-242.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-08-12-44-29-256.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-08-13-34-03-473.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-08-13-38-28-397.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-15-14-04-08.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-15-14-04-16.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-15-14-04-25.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-15-14-04-33.png" alt="screenshot" title="screenshot" width="270" height="490" />
 
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)
 * [Drakeet](http://drakeet.me/)和他的妹纸应用[妹纸&gank.io](https://github.com/drakeet/Meizhi)
+* [oxoooo/pull-back-layout](https://github.com/oxoooo/pull-back-layout)
+* [oxoooo/mr-mantou-android](https://github.com/oxoooo/mr-mantou-android)
 
 
 ###LICENSE
