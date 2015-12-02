@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -26,12 +27,12 @@ import me.zsj.smile.model.Gank;
 import me.zsj.smile.model.Meizhi;
 import me.zsj.smile.ui.MeizhiActivity;
 import me.zsj.smile.ui.VedioActivity;
+import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
@@ -48,12 +49,12 @@ public class MeizhiFragment extends SwipeRefreshFragment {
 
     private MeizhiListAdapter mMeizhiListAdapter;
 
-
     private boolean mIsFirstTouch = true;
 
     private List<Meizhi> mMeizhiLists = new ArrayList<>();
     private List<Gank> mGankLists = new ArrayList<>();
     private Data sData;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -69,13 +70,18 @@ public class MeizhiFragment extends SwipeRefreshFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mRecyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setRefreshing(true);
-            }
-        }, 358);
-        fetchMeizhiData(true);
+        if (NetUtils.checkNet(getActivity())) {
+            mRecyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setRefreshing(true);
+                }
+            }, 358);
+            fetchMeizhiData(true);
+        }else {
+            Toast.makeText(getActivity(), "请连接网络获取数据!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void itemClick() {
@@ -88,24 +94,26 @@ public class MeizhiFragment extends SwipeRefreshFragment {
                         public void onSuccess() {
                             startToMeizhiActivity(view, position);
                         }
-
                         @Override
                         public void onError() {}
                     });
-
                 } else if (view.getId() == R.id.meizhi_desc_item) {
-                    if (getVideoDataCount() > position) {
-                        Intent intent = new Intent(getActivity(), VedioActivity.class);
-                        intent.putExtra(VIDEO_URL, mGankLists.get(position).url);
-                        intent.putExtra(VIDEO_DESC, mGankLists.get(position).desc);
-                        startActivity(intent);
-                    } else {
-                        SnackUtils.show(mRecyclerView, "没有视频啦啦啦!!!");
-                    }
+                    startToVideoActivity(position);
                 }
             }
         });
 
+    }
+
+    private void startToVideoActivity(int position) {
+        if (getVideoDataCount() > position) {
+            Intent intent = new Intent(getActivity(), VedioActivity.class);
+            intent.putExtra(VIDEO_URL, mGankLists.get(position).url);
+            intent.putExtra(VIDEO_DESC, mGankLists.get(position).desc);
+            startActivity(intent);
+        } else {
+            SnackUtils.show(mRecyclerView, "没有视频啦啦啦!!!");
+        }
     }
 
     private void startToMeizhiActivity(View view, int position) {
@@ -162,12 +170,6 @@ public class MeizhiFragment extends SwipeRefreshFragment {
                         return meizhiData.results;
                     }
                 })
-                .map(new Func1<List<Meizhi>, List<Meizhi>>() {
-                    @Override
-                    public List<Meizhi> call(List<Meizhi> meizhiList) {
-                        return meizhiList;
-                    }
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Meizhi>>() {
@@ -192,7 +194,7 @@ public class MeizhiFragment extends SwipeRefreshFragment {
 
         for (int i = 0; i < restVideoData.results.size(); i++) {
             Meizhi meizhi = meizhiData.results.get(i);
-            meizhi.desc = meizhi.desc + restVideoData.results.get(i).desc;
+            meizhi.desc = meizhi.desc + " " + restVideoData.results.get(i).desc;
         }
         return meizhiData;
     }

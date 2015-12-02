@@ -3,6 +3,7 @@ package me.zsj.smile.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,13 +94,17 @@ public class VedioActivity extends ToolbarActivity{
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            mProgressBar.setProgress(newProgress);
+            try {
+                mProgressBar.setProgress(newProgress);
+            }catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
             if (newProgress == 100) {
                 mProgressBar.setVisibility(View.GONE);
             }else {
                 mProgressBar.setVisibility(View.VISIBLE);
             }
-
         }
     }
 

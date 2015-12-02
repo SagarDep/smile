@@ -27,7 +27,6 @@ import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -148,12 +147,6 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
     private void fetchData(final boolean clean) {
         //queryBuilder.limit(mStart, 50).orderBy("_id desc");
         Subscription s = Observable.just(MyApp.mLiteOrm.<GirlCollect>query(GirlCollect.class))
-                .map(new Func1<ArrayList<GirlCollect>, List<GirlCollect>>() {
-                    @Override
-                    public List<GirlCollect> call(ArrayList<GirlCollect> girlCollects) {
-                        return girlCollects;
-                    }
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<GirlCollect>>() {
