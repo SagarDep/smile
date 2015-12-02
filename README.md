@@ -38,11 +38,9 @@
    * 后续可能会更改App 界面,因为层级深了点
    
 
-<img src="/screenshots/Screenshot_2015-11-08-12-44-14-215.png" alt="screenshot" title="screenshot" width="270" height="490" /> <img src="/screenshots/Screenshot_2015-11-08-12-44-21-616.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-15-14-04-08.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-15-14-04-16.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-15-14-04-25.png" alt="screenshot" title="screenshot" width="270" height="490" />
-<img src="/screenshots/Screenshot_2015-11-15-14-04-33.png" alt="screenshot" title="screenshot" width="270" height="490" />
+<img src="/screenshots/Screenshot_2015-11-30-13-29-23-581.png" alt="screenshot" title="screenshot" width="360" height="640" /> <img src="/screenshots/Screenshot_2015-11-30-13-29-43-18.png" alt="screenshot" title="screenshot" width="360" height="640" />
+<img src="/screenshots/Screenshot_2015-11-30-13-29-49-888.png" alt="screenshot" title="screenshot" width="360" height="640" />
+<img src="/screenshots/Screenshot_2015-11-30-13-30-06-889.png" alt="screenshot" title="screenshot" width="360" height="640" />
 
 ###致谢
 * [代码家](http://blog.daimajia.com/)和他的[干货集中营](http://gank.io/)
