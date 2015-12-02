@@ -23,11 +23,6 @@ public class BaseFragment extends Fragment {
         mCompositeSubscription.add(s);
     }
 
-    public void handleError(Throwable throwable) {
-        throwable.printStackTrace();
-        Toast.makeText(getActivity(), getString(R.string.observable_error), Toast.LENGTH_LONG)
-                .show();
-    }
 
     @Override
     public void onDestroyView() {

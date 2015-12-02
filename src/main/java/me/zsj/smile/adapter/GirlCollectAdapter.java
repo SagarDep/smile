@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-
 import java.util.List;
 
 import butterknife.Bind;
@@ -21,23 +18,17 @@ import me.zsj.smile.widget.MeizhiImageView;
 /**
  * Created by zsj on 2015/11/5 0005.
  */
-public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.GirlCollectHolder> {
+public class GirlCollectAdapter extends Adapter<GirlCollect, GirlCollectAdapter.GirlCollectHolder> {
 
-    private Context mContext;
-    private List<GirlCollect> mLoveCollect;
     private OnMeizhiItemTouchListener onMeizhiItemTouchListener;
-    private RequestManager requestManager;
 
     public void setOnMeizhiItemTouchListener(OnMeizhiItemTouchListener onMeizhiItemTouchListener) {
         this.onMeizhiItemTouchListener = onMeizhiItemTouchListener;
     }
 
     public GirlCollectAdapter(Context context, List<GirlCollect> collectList) {
-        this.mContext = context;
-        this.mLoveCollect = collectList;
-        this.requestManager = Glide.with(context);
+        super(context, collectList);
     }
-
 
     @Override
     public GirlCollectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,11 +40,10 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
     @Override
     public void onBindViewHolder(GirlCollectHolder holder, int position) {
 
-        GirlCollect girlCollect = mLoveCollect.get(position);
-        int width = girlCollect.width;
-        int height = girlCollect.height;
-        holder.imageView.setOriginalSize(width == 0 ? 50 : width,
-                height == 0 ? 53 : height);
+        GirlCollect girlCollect = mDataLists.get(position);
+        holder.imageView.setOriginalSize(
+                girlCollect.width == 0 ? 50 : girlCollect.width,
+                girlCollect.height == 0 ? 53 : girlCollect.height);
         requestManager.load(girlCollect.girlUrl)
                 .into(holder.imageView);
         holder.position = position;
@@ -61,15 +51,14 @@ public class GirlCollectAdapter extends RecyclerView.Adapter<GirlCollectAdapter.
 
     @Override
     public int getItemCount() {
-        return mLoveCollect.size();
+        return mDataLists.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        GirlCollect girlCollect = mLoveCollect.get(position);
+        GirlCollect girlCollect = mDataLists.get(position);
         return Math.round((float) girlCollect.width / (float) girlCollect.height * 10f);
     }
-
 
     class GirlCollectHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 

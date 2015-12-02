@@ -192,6 +192,8 @@ public class MeizhiActivity extends AppCompatActivity {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                     subscriber.onError(e);
+                }finally {
+                    subscriber.onCompleted();
                 }
             }
         });
