@@ -42,8 +42,8 @@ public class MainActivity extends ToolbarActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         AppPagerAdapter adapter = new AppPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MeizhiFragment(), "妹纸");
-        adapter.addFragment(new SmileFragment(), "笑话");
+        adapter.addFragment(new MeizhiFragment(), getResources().getString(R.string.fragment_meizhi_title));
+        adapter.addFragment(new SmileFragment(), getResources().getString(R.string.fragment_smile_title));
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);
     }
