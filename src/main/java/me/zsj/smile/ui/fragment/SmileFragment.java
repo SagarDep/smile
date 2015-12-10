@@ -20,10 +20,10 @@ import me.zsj.smile.ui.MeizhiAndSmileActivity;
 import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -40,34 +40,29 @@ public class SmileFragment extends SwipeRefreshFragment {
     private int mIndex = 1;
     private static final String SMILE_URL = "http://www.yikedou.com/wenzi/";
     public static final String SMILE_DATA_URL = "SMILE";
-    /**
-     * 刷新数据的标识
-     */
-    private static final int LOAD_REFRESH = 1;
-    /**
-     * 上啦加载更多的标识
-     */
-    private static final int LOAD_MORE = 2;
 
-    private int mStart = 1;
     QueryBuilder query = new QueryBuilder(Smile.class);
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fetchSmileData(LOAD_REFRESH);
-            }
-        }, 358);
+        if (NetUtils.checkNet(getActivity())) {
+            mRefreshLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchSmileData(true);
+                }
+            }, 358);
+        } else {
+            SnackUtils.show(mRecyclerView, R.string.net_unconnected);
+        }
 
-        initRecyclerView();
-
+        setupRecyclerView();
+        itemClick();
     }
 
-    private void initRecyclerView() {
+    private void setupRecyclerView() {
 
         query.limit(1, 10);
         mSmileDatas = MyApp.mLiteOrm.query(query);
@@ -86,18 +81,12 @@ public class SmileFragment extends SwipeRefreshFragment {
                 super.onScrolled(recyclerView, dx, dy);
                 boolean isButtom = layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1]
                         >= mSmileListAdapter.getItemCount() - 4;
-                if (!mRefreshLayout.isRefreshing() && isButtom) {
-                    mIndex++;
-                    if (mIndex <= 50) {
-                        fetchSmileData(LOAD_MORE);
-                    } else {
-                        SnackUtils.show(mRecyclerView, R.string.last_detail);
-                    }
+                if (!mRefreshLayout.isRefreshing() && isButtom && NetUtils.checkNet(getActivity())) {
+                    mIndex += 1;
+                    fetchSmileData(false);
                 }
             }
         });
-
-        itemClick();
 
     }
 
@@ -114,30 +103,24 @@ public class SmileFragment extends SwipeRefreshFragment {
         });
     }
 
-    private void fetchSmileData(int index) {
+    private void fetchSmileData(final boolean clean) {
         setRefreshing(true);
-        Subscription s = Observable.just(index)
-                .map(new Func1<Integer, Integer>() {
+        Subscription s = getSmileData(clean)
+                .doOnNext(new Action1<List<Smile>>() {
                     @Override
-                    public Integer call(Integer integer) {
-                        int success = 1;
-                        if (integer == LOAD_REFRESH) {
-                            getRefreshDatas();
-                        } else if (integer == LOAD_MORE) {
-                            loadMoreDatas();
-                        }
-                        return success;
+                    public void call(List<Smile> smileList) {
+                        if (clean) saveSmile(smileList);
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Integer>() {
+                .subscribe(new Action1<List<Smile>>() {
                     @Override
-                    public void call(Integer integer) {
-                        if (integer == 1) {
-                            mSmileListAdapter.notifyDataSetChanged();
-                            setRefreshing(false);
-                        }
+                    public void call(List<Smile> smileList) {
+                        if (clean) mSmileDatas.clear();
+                        mSmileDatas.addAll(smileList);
+                        mSmileListAdapter.notifyDataSetChanged();
+                        setRefreshing(false);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -146,52 +129,34 @@ public class SmileFragment extends SwipeRefreshFragment {
                     }
                 });
         addSubscription(s);
+
     }
 
-    /**
-     * 刷新，加载数据
-     */
-    private void getRefreshDatas() {
-        try {
-            if (NetUtils.checkNet(getActivity())) {
-                mSmileDatas = SmileParser.getInstance().getSimle(SMILE_URL);
-                //刷新过程中删除旧数据
-                MyApp.mLiteOrm.deleteAll(Smile.class);
-                //保存下载解析到的新数据
-                MyApp.mLiteOrm.save(mSmileDatas);
-                mSmileListAdapter.setDatas(mSmileDatas);
-            } else {
-                SnackUtils.show(mRecyclerView, R.string.net_unconnected);
+    private Observable<List<Smile>> getSmileData(final boolean clean) {
+        return Observable.create(new Observable.OnSubscribe<List<Smile>>() {
+            @Override
+            public void call(Subscriber<? super List<Smile>> subscriber) {
+                String smileUrl;
+                if (clean) {
+                    smileUrl = SMILE_URL;
+                } else {
+                    smileUrl = SMILE_URL + "index_" + mIndex + ".html";
+                }
+                subscriber.onNext(SmileParser.getInstance().getSimle(smileUrl));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    /**
-     * 分页加载，加载更多数据
-     */
-    private void loadMoreDatas() {
-        try {
-            if (NetUtils.checkNet(getActivity())) {
-                mSmileDatas = SmileParser.getInstance().getSimle(SMILE_URL + "index_" + mIndex + ".html");
-                //将解析得到的数据全部添加到数据库中做缓存
-                mSmileListAdapter.addAll(mSmileDatas);
-            } else {
-                // 分页查询
-                mSmileDatas = MyApp.mLiteOrm.query(query.limit(mStart + 10, 10));
-                mSmileListAdapter.addAll(mSmileDatas);
-                SnackUtils.show(mRecyclerView, R.string.net_unconnected);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void saveSmile(List<Smile> smileList) {
+        MyApp.mLiteOrm.deleteAll(Smile.class);
+        MyApp.mLiteOrm.save(smileList);
     }
 
     @Override
     public void requestDataRefresh() {
         super.requestDataRefresh();
         mIndex = 1;
-        fetchSmileData(LOAD_REFRESH);
+        fetchSmileData(true);
     }
+
 }

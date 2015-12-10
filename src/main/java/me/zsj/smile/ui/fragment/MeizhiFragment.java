@@ -26,7 +26,7 @@ import me.zsj.smile.event.OnMeizhiItemTouchListener;
 import me.zsj.smile.model.Gank;
 import me.zsj.smile.model.Meizhi;
 import me.zsj.smile.ui.MeizhiActivity;
-import me.zsj.smile.ui.VedioActivity;
+import me.zsj.smile.ui.VideoActivity;
 import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.SnackUtils;
 import rx.Observable;
@@ -107,7 +107,7 @@ public class MeizhiFragment extends SwipeRefreshFragment {
 
     private void startToVideoActivity(int position) {
         if (getVideoDataCount() > position) {
-            Intent intent = new Intent(getActivity(), VedioActivity.class);
+            Intent intent = new Intent(getActivity(), VideoActivity.class);
             intent.putExtra(VIDEO_URL, mGankLists.get(position).url);
             intent.putExtra(VIDEO_DESC, mGankLists.get(position).desc);
             startActivity(intent);
@@ -220,4 +220,5 @@ public class MeizhiFragment extends SwipeRefreshFragment {
         setRefreshing(true);
         fetchMeizhiData(true);
     }
+
 }

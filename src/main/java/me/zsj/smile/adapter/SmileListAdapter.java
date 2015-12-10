@@ -35,15 +35,6 @@ public class SmileListAdapter extends Adapter<Smile, SmileListAdapter.MyViewHold
         mInflater = LayoutInflater.from(context);
     }
 
-    public void addAll(List<Smile> datas) {
-        mDataLists.addAll(datas);
-    }
-
-    public void setDatas(List<Smile> datas) {
-        mDataLists.clear();
-        mDataLists.addAll(datas);
-    }
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

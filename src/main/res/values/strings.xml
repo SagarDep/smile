@@ -18,18 +18,15 @@
     <string name="aboutme_github">我的github: <a href="https://github.com/Assassinss">https://github.com/Assassinss</a></string>
     <string name="weibo">我的微博: <a href="http://weibo.com/3909413398/profile?topnav=1&amp;wvr=6">xiao_zhu5</a></string>
 
-    <string name="refreshVedio">刷新</string>
+    <string name="refreshVideo">刷新</string>
     <string name="openWithBrowse">在浏览器中打开</string>
-
-    <string name="nav_home">笑话</string>
-    <string name="nav_meizhi">妹纸</string>
-    <string name="nav_collect">收藏</string>
 
     <string name="observable_error">服务器出错了，数据不能获取!</string>
 
     <string name="about">关于App</string>
     <string name="love_collect_activity">收藏</string>
 
-
+    <string name="fragment_meizhi_title">妹纸</string>
+    <string name="fragment_smile_title">笑话</string>
 
 </resources>

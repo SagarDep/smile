@@ -3,7 +3,6 @@ package me.zsj.smile.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +21,7 @@ import me.zsj.smile.R;
 /**
  * Created by zsj on 2015/10/4 0004.
  */
-public class VedioActivity extends ToolbarActivity{
+public class VideoActivity extends ToolbarActivity {
 
     @Bind(R.id.progressbar) NumberProgressBar mProgressBar;
     @Bind(R.id.vedio_web) WebView mWebView;
@@ -43,10 +42,15 @@ public class VedioActivity extends ToolbarActivity{
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setTitle(mVedioTitle);
+
         parserIntent();
-
         setNavigationListener();
+        setupWebView();
 
+    }
+
+    private void setupWebView() {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
@@ -56,15 +60,13 @@ public class VedioActivity extends ToolbarActivity{
         mWebView.setWebChromeClient(new VedioClient());
         mWebView.setWebViewClient(new VedioViewClient());
         mWebView.loadUrl(mVedioUrl);
-
-        mToolbar.setTitle(mVedioTitle);
     }
 
     private void setNavigationListener() {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VedioActivity.this.onBackPressed();
+                VideoActivity.this.onBackPressed();
             }
         });
     }

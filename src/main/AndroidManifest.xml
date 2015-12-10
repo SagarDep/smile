@@ -41,7 +41,7 @@
         <activity android:name=".ui.AboutActivity">
         </activity>
 
-        <activity android:name=".ui.VedioActivity">
+        <activity android:name=".ui.VideoActivity">
         </activity>
 
         <activity android:name=".ui.LoveCollectActivity"

@@ -4,7 +4,7 @@
 
     <item android:id="@+id/refreshVedio"
         android:orderInCategory="100"
-        android:title="@string/refreshVedio"
+        android:title="@string/refreshVideo"
         app:showAsAction="never"/>
 
     <item android:id="@+id/openWithBrowse"
