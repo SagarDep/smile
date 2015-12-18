@@ -1,5 +1,5 @@
 # smile
-
+![](/src/main/res/mipmap-xxxhdpi/ic_launcher.png)<br>
 对之前的App进行了重构,不但可以欣赏妹纸，还可以看笑话两不误
 
 ###项目中用到的知识点：
