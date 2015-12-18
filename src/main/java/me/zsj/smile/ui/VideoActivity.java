@@ -42,9 +42,8 @@ public class VideoActivity extends ToolbarActivity {
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setTitle(mVedioTitle);
-
         parserIntent();
+        mToolbar.setTitle(mVedioTitle);
         setNavigationListener();
         setupWebView();
 

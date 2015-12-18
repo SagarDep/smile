@@ -12,6 +12,12 @@
         <!--<item name="toolbarStyle">@style/LightToolbar</item>-->
     </style>
 
+    <style name="CollapsingToolbarTitleStyle"
+        parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+
+
     <style name="AppTheme" parent="BaseTheme">
         <item name="android:fitsSystemWindows">true</item>
     </style>
