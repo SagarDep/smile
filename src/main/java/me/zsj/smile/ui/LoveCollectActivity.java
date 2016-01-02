@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 
+import com.litesuits.orm.db.assit.QueryBuilder;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -34,14 +35,13 @@ import rx.schedulers.Schedulers;
  */
 public class LoveCollectActivity extends SwipeRefreshActivity {
 
-    @Bind(R.id.recyclerview)
-    RecyclerView mCollectRecyclerView;
+    @Bind(R.id.recyclerview) RecyclerView mCollectRecyclerView;
     private GirlCollectAdapter mCollectAdapter;
 
     List<GirlCollect> mGirlCollectList = new ArrayList<>();
-    //QueryBuilder queryBuilder = new QueryBuilder(GirlCollect.class);
-    //private int mStart = 1;
-
+    QueryBuilder queryBuilder = new QueryBuilder(GirlCollect.class);
+    private int mStart = 0;
+    private static final int QUERY_TOTAL = 30;
 
     @Override
     protected int getLayoutId() {
@@ -78,14 +78,14 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
         mCollectRecyclerView.setLayoutManager(layoutManager);
         mCollectRecyclerView.setAdapter(mCollectAdapter);
 
-        /*mCollectRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mCollectRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 boolean isButtom = layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1]
-                        >= mGirlCollectList.size() - 4;
+                        >= mGirlCollectList.size() - 10;
                 if (!mRefreshLayout.isRefreshing() && isButtom) {
-                    mStart += 50;
+                    mStart += QUERY_TOTAL;
                     setRefreshing(true);
                     if (mGirlCollectList.size() == 0) {
                         setRefreshing(false);
@@ -94,7 +94,7 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
                     fetchData(false);
                 }
             }
-        });*/
+        });
     }
 
     private void onMeizhiTouch() {
@@ -140,13 +140,14 @@ public class LoveCollectActivity extends SwipeRefreshActivity {
     }
 
     private void refresh() {
-      //  mStart = 1;
+        mStart = 0;
         fetchData(true);
     }
 
     private void fetchData(final boolean clean) {
-        //queryBuilder.limit(mStart, 50).orderBy("_id desc");
-        Subscription s = Observable.just(MyApp.mLiteOrm.<GirlCollect>query(GirlCollect.class))
+        //MyApp.mLiteOrm.<GirlCollect>query(GirlCollect.class)
+        queryBuilder = queryBuilder.limit(mStart, QUERY_TOTAL).orderBy("_id desc");
+        Subscription s = Observable.just(MyApp.mLiteOrm.<GirlCollect>query(queryBuilder))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<GirlCollect>>() {

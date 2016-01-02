@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.litesuits.orm.db.assit.QueryBuilder;
@@ -64,7 +65,7 @@ public class SmileFragment extends SwipeRefreshFragment {
 
     private void setupRecyclerView() {
 
-        query.limit(1, 10);
+        query.limit(0, 10);
         mSmileDatas = MyApp.mLiteOrm.query(query);
         mSmileListAdapter = new SmileListAdapter(getActivity(), mSmileDatas);
 
