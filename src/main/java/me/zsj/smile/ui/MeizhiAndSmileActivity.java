@@ -8,15 +8,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,10 @@ import me.zsj.smile.DataRetrofit;
 import me.zsj.smile.R;
 import me.zsj.smile.data.MeizhiData;
 import me.zsj.smile.model.Meizhi;
-import me.zsj.smile.widget.RevealLayout;
 import me.zsj.smile.utils.NetUtils;
 import me.zsj.smile.utils.ScreenUtils;
 import me.zsj.smile.utils.SnackUtils;
+import me.zsj.smile.widget.RevealLayout;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -60,7 +62,10 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().setStatusBarColor(Color.BLACK);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
         mAppBar.setBackgroundColor(Color.TRANSPARENT);
         mToolbar.setBackgroundColor(Color.TRANSPARENT);
 
@@ -134,7 +139,7 @@ public class MeizhiAndSmileActivity extends ToolbarActivity {
     public void onBackPressed() {
         contentView.animate().translationY(ScreenUtils.getHeight(this))
                 .setDuration(500)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setInterpolator(new DecelerateInterpolator())
                 .setListener(new AnimatorListenerAdapter() {
 
                     @Override

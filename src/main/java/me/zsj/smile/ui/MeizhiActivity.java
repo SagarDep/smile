@@ -75,8 +75,7 @@ public class MeizhiActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().setStatusBarColor(Color.BLACK);
 
-        mMeizhiUrl = getIntent().getExtras().getString(MeizhiFragment.MEIZHI_URL);
-        mMeizhiDate = getIntent().getExtras().getString(MeizhiFragment.MEIZHI_DATE);
+        parseIntent();
 
         ViewCompat.setTransitionName(mImageView, TRANSIT_PIC);
         Picasso.with(this).load(mMeizhiUrl).into(mImageView);
@@ -92,6 +91,11 @@ public class MeizhiActivity extends AppCompatActivity {
         imageTap();
         checkWhetherCollected();
 
+    }
+
+    private void parseIntent() {
+        mMeizhiUrl = getIntent().getExtras().getString(MeizhiFragment.MEIZHI_URL);
+        mMeizhiDate = getIntent().getExtras().getString(MeizhiFragment.MEIZHI_DATE);
     }
 
     private void imageTap() {

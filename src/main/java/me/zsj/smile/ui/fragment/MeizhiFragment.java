@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.zsj.smile.Data;
+import me.zsj.smile.DataApi;
 import me.zsj.smile.DataRetrofit;
 import me.zsj.smile.R;
 import me.zsj.smile.adapter.MeizhiListAdapter;
@@ -53,7 +53,7 @@ public class MeizhiFragment extends SwipeRefreshFragment {
 
     private List<Meizhi> mMeizhiLists = new ArrayList<>();
     private List<Gank> mGankLists = new ArrayList<>();
-    private Data sData;
+    private DataApi sData;
 
 
     @Override

@@ -3,31 +3,41 @@ package me.zsj.smile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
+
 import java.util.concurrent.TimeUnit;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import retrofit.converter.GsonConverter;
+
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 
 
 public class DataRetrofit {
 
-    private Data service;
+    private DataApi service;
 
     final static Gson gson =
         new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").serializeNulls().create();
 
+    static final int DEFAULT_READ_TIMEOUT_MILLIS = 20 * 1000; // 20s
+    static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 15 * 1000; // 15s
+
     public DataRetrofit() {
         OkHttpClient client = new OkHttpClient();
-        client.setReadTimeout(12, TimeUnit.SECONDS);
+        client.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+        client.setReadTimeout(DEFAULT_READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
 
-        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(client))
-            .setEndpoint("http://gank.avosapps.com/api")
-            .setConverter(new GsonConverter(gson))
-            .build();
-        service = restAdapter.create(Data.class);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://gank.avosapps.com/api")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        service = retrofit.create(DataApi.class);
+
     }
 
-    public Data getService() {
+    public DataApi getService() {
         return service;
     }
 }

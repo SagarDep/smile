@@ -3,6 +3,7 @@ package me.zsj.smile.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +42,10 @@ public class VideoActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
         parserIntent();
         mToolbar.setTitle(mVedioTitle);
         setNavigationListener();

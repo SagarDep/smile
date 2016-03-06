@@ -75,6 +75,9 @@ public class PullBackLayout extends FrameLayout{
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
+            if (releasedChild == null)
+                return;
+
             if (releasedChild.getTop() >= mReleasedHeight) {
                 if (pullCallBack != null) {
                     pullCallBack.onPullCompleted();
@@ -99,7 +102,8 @@ public class PullBackLayout extends FrameLayout{
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mBackgroudLayout = (FrameLayout) getChildAt(0);
-        mBackgroudLayout.setBackground(mBackgroud);
+        if (mBackgroudLayout != null)
+            mBackgroudLayout.setBackground(mBackgroud);
     }
 
     @Override

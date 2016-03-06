@@ -9,7 +9,7 @@ import rx.Observable;
 /**
  * Created by zsj on 2015/9/16 0016.
  */
-public interface Data {
+public interface DataApi {
 
     @GET("/data/福利/30/{page}")
     Observable<MeizhiData> getMeizhi(@Path("page")int page);
