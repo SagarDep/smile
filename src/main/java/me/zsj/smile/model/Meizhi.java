@@ -6,7 +6,7 @@ package me.zsj.smile.model;
  */
 public class Meizhi {
 
-    public String url;
+   /* public String url;
     public String who;
     public String publishedAt;
     public String desc;
@@ -14,21 +14,32 @@ public class Meizhi {
     public String createdAt;
     public String updatedAt;
     public String type;
-    public String objectId;
+    public String objectId;*/
 
+    public String _id;
+    public String _ns;
+    public String createdAt;
+    public String desc;
+    public String publishedAt;
+    public String source;
+    public String type;
+    public String url;
+    public boolean used;
+    public String who;
 
     @Override
     public String toString() {
         return "Meizhi{" +
-                "who='" + who + '\'' +
-                ", publishedAt='" + publishedAt + '\'' +
+                "_id='" + _id + '\'' +
+                ", _ns='" + _ns + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 ", desc='" + desc + '\'' +
+                ", publishedAt='" + publishedAt + '\'' +
+                ", source='" + source + '\'' +
                 ", type='" + type + '\'' +
                 ", url='" + url + '\'' +
                 ", used=" + used +
-                ", objectId='" + objectId + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
+                ", who='" + who + '\'' +
                 '}';
     }
 }

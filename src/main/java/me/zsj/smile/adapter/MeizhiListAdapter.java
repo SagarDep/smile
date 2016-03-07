@@ -50,6 +50,8 @@ public class MeizhiListAdapter extends Adapter<Meizhi, MeizhiListAdapter.MeizhiH
                 meizhi.desc;
         holder.desc_text.setText(desc);
         Glide.clear(holder.imageView);
+
+        holder.imageView.setOriginalSize(50, 50);
         requestManager.load(meizhi.url)
                 .centerCrop()
                 .into(holder.imageView);
@@ -74,7 +76,6 @@ public class MeizhiListAdapter extends Adapter<Meizhi, MeizhiListAdapter.MeizhiH
             ButterKnife.bind(this, itemView);
             meizhi_item.setOnClickListener(this);
             imageView.setOnClickListener(this);
-            imageView.setOriginalSize(50, 50);
         }
 
         @Override

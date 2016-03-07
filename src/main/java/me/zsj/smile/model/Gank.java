@@ -7,25 +7,39 @@ import java.util.Date;
  */
 public class Gank {
 
-    public String url;
+ /*   public String url;
     public String type;
     public String desc;
     public String who;
     public boolean used;
     public Date createdAt;
-    public Date updatedAt;
+    public Date updatedAt;*/
 
+
+    public String _id;
+    public String _ns;
+    public Date createdAt;
+    public String desc;
+    public Date publishedAt;
+    public String source;
+    public String type;
+    public String url;
+    public boolean used;
+    public String who;
 
     @Override
     public String toString() {
         return "Gank{" +
-                "url='" + url + '\'' +
-                ", type='" + type + '\'' +
-                ", desc='" + desc + '\'' +
-                ", who='" + who + '\'' +
-                ", used=" + used +
+                "_id='" + _id + '\'' +
+                ", _ns='" + _ns + '\'' +
                 ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
+                ", desc='" + desc + '\'' +
+                ", publishedAt=" + publishedAt +
+                ", source='" + source + '\'' +
+                ", type='" + type + '\'' +
+                ", url='" + url + '\'' +
+                ", used=" + used +
+                ", who='" + who + '\'' +
                 '}';
     }
 }

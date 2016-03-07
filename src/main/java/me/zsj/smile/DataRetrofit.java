@@ -6,9 +6,9 @@ import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import retrofit.RestAdapter;
+import retrofit.client.OkClient;
+import retrofit.converter.GsonConverter;
 
 
 public class DataRetrofit {
@@ -21,19 +21,20 @@ public class DataRetrofit {
     static final int DEFAULT_READ_TIMEOUT_MILLIS = 20 * 1000; // 20s
     static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 15 * 1000; // 15s
 
+    static final String mGankUrl = "http://gank.io/api/";
+
     public DataRetrofit() {
         OkHttpClient client = new OkHttpClient();
         client.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
         client.setReadTimeout(DEFAULT_READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://gank.avosapps.com/api")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setClient(new OkClient(client))
+                .setEndpoint(mGankUrl)
+                .setConverter(new GsonConverter(gson))
                 .build();
 
-        service = retrofit.create(DataApi.class);
+        service = restAdapter.create(DataApi.class);
 
     }
 
